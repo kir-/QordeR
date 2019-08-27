@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function Application() {
+export default function Menu() {
   const classes = useStyles();
   const [appetizer, setAppetizer] = React.useState(false);
   const [tempura, setTempura] = React.useState(false);
