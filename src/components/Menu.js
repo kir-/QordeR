@@ -12,6 +12,7 @@ import SendIcon from "@material-ui/icons/Send";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import StarBorder from "@material-ui/icons/StarBorder";
+import Item from "./Item.js"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -64,8 +65,127 @@ export default function Menu() {
     setCombination(!combination)
   }
 
+    const arr_app = [
+        "Miso Soup",
+        "House Green Salad",
+        "Gyoze", "Edamame",
+        "Harumaki",
+        "Seaweed Salad",
+        "Agedashi Tofu",
+        "Sunomono Salad",
+        "Chicken Karage",
+        "Soft Shell Crab",
+        "Tuna Tataki",
+        "Potato Croquette",
+        "Tuna Carppachio"
+    ]
+    const arr_tempura = [
+        "Prawn Tempura",
+        "Yam Tempura",
+        "Vegetable Tempura",
+        "Assorted Tempura",
+        "Appetizer Tempura",
+        "Sweet Potato Tempura"
+    ]
+    const arr_udon = [
+        "Plain Udon",
+        "Beef Udon",
+        "Chicken Udon",
+        "Seafood Udon",
+        "Beef Yakiudon",
+        "Chicken Yakiudon",
+        "Seafood Yakiudon",
+        "Nabeyaki Udon"
+    ]
+    const arr_carte = [
+        "Chicken Teriyaki",
+        "Beef Teriyaki",
+        "Chicken Curry",
+        "Beef Curry",
+        "Chicken Teriyaki Donburi",
+        "Beef Teriyaki Donburi",
+        "Sable Fish",
+        "Unagi Donburi"
+    ]
 
+    const arr_maki = [
+        "Kappa Roll",
+        "Oshinko Roll",
+        "Salmon Roll",
+        "Tuna Roll",           
+        "Negitoro Roll",
+        "California Roll",
+        "Salmon Avocado Roll",
+        "Yam Tempura Roll",
+        "BC Roll",
+        "Dynamite Roll",
+        "Mango Roll",
+        "Philadelphia Roll",
+        "Unagi Roll",
+        "Chopped Scallop Roll",
+        "Spicy Salmon Roll",
+        "Spicy Tuna Roll"
+    ]
 
+    const arr_temaki = [
+        "Tuna Cone",
+        "Salmon Cone",
+        "Chopped Scallop Cone",
+        "Spicy Tuna Cone",
+        "Spicy Salmon Cone",
+        "Spicy Chopped Scallop Cone"
+    ]
+    const arr_nigiri = [
+        "Inari",
+        "Tamago",
+        "Hokkigai",
+        "Wakame",
+        "Tuna",
+        "Salmon",
+        "Sockeye Salmon",
+        "Masago",
+        "Saba",
+        "Ebi",
+        "Chopped Scallop",
+        "Tobiko",
+        "Tai",
+        "Ika",
+        "Toro",
+        "Tobiko & Quall Egg",
+        "Smoke Salmon",
+        "Tako",
+        "Amaebi",
+        "Hotategai",
+        "Unagi",
+        "Ikura",
+        "Hamachi",
+        "Red Tuna",
+        "Uni"
+    ]
+
+    const arr_sashimi = [
+        "Salmon Sashimi",
+        "Tuna Sashimi",
+        "Spicy Salmon Sashimi",
+        "Spicy Tuna Sashimi",
+        "Tuna & Salmon Sashimi",
+        "Sockeye Salmon Sashimi",
+        "Hokkigai Sashimi",
+        "Toro Sashimi",
+        "Tako Sashimi",
+        "Amaebi Sashimi",
+        "Hamachi Sashimi",
+        "Assorted Sashimi",
+        "Red Tuna Sashimi",
+        "Uni Sashimi"
+    ]
+
+    const arr_combo =[
+        "Party Tray A",
+        "Party Tray B",
+        "Party Tray C",
+        "Spicy Combo"
+    ]
   return (
     <List
       component="nav"
@@ -85,14 +205,9 @@ export default function Menu() {
         {appetizer ? <ExpandMore /> : <ExpandLess />}
       </ListItem>
       <Collapse in={appetizer} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-          <ListItem button className={classes.nested}>
-            <ListItemIcon>
-              <StarBorder />
-            </ListItemIcon>
-            <ListItemText primary="Gyoza" />
-          </ListItem>
-        </List>
+        {arr_app.map((value) => {
+            return <Item name={value}/> 
+         })}
       </Collapse>
       <ListItem button onClick={handleTempura}>
         <ListItemIcon>
@@ -103,12 +218,9 @@ export default function Menu() {
       </ListItem>
       <Collapse in={tempura} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          <ListItem button className={classes.nested}>
-            <ListItemIcon>
-              <StarBorder />
-            </ListItemIcon>
-            <ListItemText primary="Prawn Tempura" />
-          </ListItem>
+            {arr_tempura.map((value) => {
+            return <Item name={value}/> 
+         })}
         </List>
       </Collapse>
       <ListItem button onClick={handleUdon}>
@@ -119,13 +231,10 @@ export default function Menu() {
         {udon ? <ExpandMore /> : <ExpandLess />}
       </ListItem>
       <Collapse in={udon} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-          <ListItem button className={classes.nested}>
-            <ListItemIcon>
-              <StarBorder />
-            </ListItemIcon>
-            <ListItemText primary="Beef Udon" />
-          </ListItem>
+        <List component="div" disablePadding> 
+            {arr_udon.map((value) => {
+                return <Item name={value}/> 
+            })}
         </List>
       </Collapse>
       <ListItem button onClick={handleCarte}>
@@ -137,12 +246,9 @@ export default function Menu() {
       </ListItem>
       <Collapse in={carte} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          <ListItem button className={classes.nested}>
-            <ListItemIcon>
-              <StarBorder />
-            </ListItemIcon>
-            <ListItemText primary="Chicken Teriyaki" />
-          </ListItem>
+            {arr_carte.map((value) => {
+                return <Item name={value}/> 
+            })}
         </List>
       </Collapse>
       <ListItem button onClick={handleMaki}>
@@ -154,12 +260,9 @@ export default function Menu() {
       </ListItem>
       <Collapse in={maki} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          <ListItem button className={classes.nested}>
-            <ListItemIcon>
-              <StarBorder />
-            </ListItemIcon>
-            <ListItemText primary="Negitoro Roll" />
-          </ListItem>
+            {arr_maki.map((value) => {
+                return <Item name={value}/> 
+            })}
         </List>
       </Collapse>
       <ListItem button onClick={handleTemaki}>
@@ -171,12 +274,9 @@ export default function Menu() {
       </ListItem>
       <Collapse in={temaki} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          <ListItem button className={classes.nested}>
-            <ListItemIcon>
-              <StarBorder />
-            </ListItemIcon>
-            <ListItemText primary="Spicy Tuna Cone" />
-          </ListItem>
+            {arr_temaki.map((value) => {
+                return <Item name={value}/> 
+            })}
         </List>
       </Collapse>
       <ListItem button onClick={handleNigiri}>
@@ -188,12 +288,9 @@ export default function Menu() {
       </ListItem>
       <Collapse in={nigiri} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          <ListItem button className={classes.nested}>
-            <ListItemIcon>
-              <StarBorder />
-            </ListItemIcon>
-            <ListItemText primary="Sockeye Salmon" />
-          </ListItem>
+            {arr_nigiri.map((value) => {
+                return <Item name={value}/> 
+            })}
         </List>
       </Collapse>
       <ListItem button onClick={handleSashimi}>
@@ -205,12 +302,9 @@ export default function Menu() {
       </ListItem>
       <Collapse in={sashimi} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          <ListItem button className={classes.nested}>
-            <ListItemIcon>
-              <StarBorder />
-            </ListItemIcon>
-            <ListItemText primary="Toro Sashimi" />
-          </ListItem>
+            {arr_sashimi.map((value) => {
+                return <Item name={value}/> 
+            })}
         </List>
       </Collapse>
       <ListItem button onClick={handleCombination}>
@@ -222,12 +316,9 @@ export default function Menu() {
       </ListItem>
       <Collapse in={combination} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          <ListItem button className={classes.nested}>
-            <ListItemIcon>
-              <StarBorder />
-            </ListItemIcon>
-            <ListItemText primary="Party Tray A" />
-          </ListItem>
+            {arr_combo.map((value) => {
+                return <Item name={value}/> 
+            })}
         </List>
       </Collapse>
     </List>
