@@ -13,6 +13,7 @@ import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import StarBorder from "@material-ui/icons/StarBorder";
 import Item from "./Item.js"
+// import './Menu.css'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -22,7 +23,7 @@ const useStyles = makeStyles(theme => ({
   },
   nested: {
     paddingLeft: theme.spacing(4)
-  }
+  },
 }));
 
 export default function Menu() {
@@ -192,7 +193,7 @@ export default function Menu() {
       aria-labelledby="nested-list-subheader"
       subheader={
         <ListSubheader component="div" id="nested-list-subheader">
-          Sushi
+          Menu
         </ListSubheader>
       }
       className={classes.root}
