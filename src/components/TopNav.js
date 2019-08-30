@@ -7,6 +7,8 @@ import Button from '@material-ui/core/Button';
 // import IconButton from '@material-ui/core/IconButton';
 // import MenuIcon from '@material-ui/icons/Menu';
 
+
+
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
@@ -19,7 +21,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function ButtonAppBar() {
+export default function TopNav() {
   const classes = useStyles();
 
   return (
@@ -29,7 +31,7 @@ export default function ButtonAppBar() {
           <Typography variant="h6" className={classes.title}>
             Restaurant Name
           </Typography>
-          <Button size="small" color="inherit">Admin</Button>
+          <Button href="/admin" size="small" color="inherit">Admin</Button>
         </Toolbar>
       </AppBar>
     </div>

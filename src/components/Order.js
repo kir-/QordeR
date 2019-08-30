@@ -1,17 +1,19 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
+import TopNav from './TopNav'
 const axios = require('axios');
 
 
-export default function Order(props){
+export default function Order(props) {
   const [order, setOrder] = useState();
-  useEffect(()=>{
+  useEffect(() => {
     axios.get('/api/getMenu')
-        .then(res => {
-          console.log(res)
-          setOrder(res.data)})
-  },[])
-  if(order){
-    return(
+      .then(res => {
+        console.log(res)
+        setOrder(res.data)
+      })
+  }, [])
+  if (order) {
+    return (
       <div className="App">
           <h1>Your Order</h1>
             <div>

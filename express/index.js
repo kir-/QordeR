@@ -1,12 +1,17 @@
 const express = require('express');
 const path = require('path');
-var bodyParser = require('body-parser')
+const bodyParser = require('body-parser')
+const cookieSession = require('cookie-session')
 
 const app = express();
 
 // Serve the static files from the React app
 app.use(express.static(path.join(__dirname, 'client/build')));
 app.use(bodyParser.json());
+app.use(cookieSession({
+  name: 'session',
+  keys: ['key1', 'key2']
+}))
 
 let order = ["Fries", "Burger"]
 

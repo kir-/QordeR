@@ -1,7 +1,7 @@
 import React, { useState, Fragment } from 'react';
+import TopNav from './TopNav'
 const axios = require('axios');
 import { navigate } from "hookrouter";
-import TopNav from "./TopNav"
 // import routes from "../router";
 
 export default function(props) {

@@ -7,8 +7,7 @@ import './index.css';
 import routes from "./router";
 
 function App() {
-  const routeResult = useRoutes(routes);
-  return routeResult;
+   return useRoutes(routes);
 }
 
 const rootElement = document.getElementById("root");
