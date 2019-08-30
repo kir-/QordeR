@@ -7,11 +7,11 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Collapse from "@material-ui/core/Collapse";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
-import DraftsIcon from "@material-ui/icons/Drafts";
-import SendIcon from "@material-ui/icons/Send";
+// import DraftsIcon from "@material-ui/icons/Drafts";
+// import SendIcon from "@material-ui/icons/Send";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
-import StarBorder from "@material-ui/icons/StarBorder";
+// import StarBorder from "@material-ui/icons/StarBorder";
 import Item from "./Item.js"
 // import './Menu.css'
 
@@ -113,7 +113,7 @@ export default function Menu() {
         "Kappa Roll",
         "Oshinko Roll",
         "Salmon Roll",
-        "Tuna Roll",           
+        "Tuna Roll",
         "Negitoro Roll",
         "California Roll",
         "Salmon Avocado Roll",
@@ -207,7 +207,7 @@ export default function Menu() {
       </ListItem>
       <Collapse in={appetizer} timeout="auto" unmountOnExit>
         {arr_app.map((value) => {
-            return <Item name={value}/> 
+            return <Item name={value}/>
          })}
       </Collapse>
       <ListItem button onClick={handleTempura}>
@@ -220,7 +220,7 @@ export default function Menu() {
       <Collapse in={tempura} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
             {arr_tempura.map((value) => {
-            return <Item name={value}/> 
+            return <Item name={value}/>
          })}
         </List>
       </Collapse>
@@ -232,9 +232,9 @@ export default function Menu() {
         {udon ? <ExpandMore /> : <ExpandLess />}
       </ListItem>
       <Collapse in={udon} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding> 
+        <List component="div" disablePadding>
             {arr_udon.map((value) => {
-                return <Item name={value}/> 
+                return <Item name={value}/>
             })}
         </List>
       </Collapse>
@@ -248,7 +248,7 @@ export default function Menu() {
       <Collapse in={carte} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
             {arr_carte.map((value) => {
-                return <Item name={value}/> 
+                return <Item name={value}/>
             })}
         </List>
       </Collapse>
@@ -262,7 +262,7 @@ export default function Menu() {
       <Collapse in={maki} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
             {arr_maki.map((value) => {
-                return <Item name={value}/> 
+                return <Item name={value}/>
             })}
         </List>
       </Collapse>
@@ -276,7 +276,7 @@ export default function Menu() {
       <Collapse in={temaki} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
             {arr_temaki.map((value) => {
-                return <Item name={value}/> 
+                return <Item name={value}/>
             })}
         </List>
       </Collapse>
@@ -290,7 +290,7 @@ export default function Menu() {
       <Collapse in={nigiri} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
             {arr_nigiri.map((value) => {
-                return <Item name={value}/> 
+                return <Item name={value}/>
             })}
         </List>
       </Collapse>
@@ -304,7 +304,7 @@ export default function Menu() {
       <Collapse in={sashimi} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
             {arr_sashimi.map((value) => {
-                return <Item name={value}/> 
+                return <Item name={value}/>
             })}
         </List>
       </Collapse>
@@ -318,7 +318,7 @@ export default function Menu() {
       <Collapse in={combination} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
             {arr_combo.map((value) => {
-                return <Item name={value}/> 
+                return <Item name={value}/>
             })}
         </List>
       </Collapse>
