@@ -1,17 +1,15 @@
 import React, { Fragment, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
-import {List, ListSubheader, ListItem, ListItemIcon, ListItemText, Collapse} from "@material-ui/core"
+import { List, ListSubheader, ListItem, ListItemIcon, ListItemText, Collapse, Button, ButtonGroup } from "@material-ui/core"
 
-import { ExpandLess, ExpandMore} from "@material-ui/icons"
+import { ExpandLess, ExpandMore } from "@material-ui/icons"
 import InboxIcon from "@material-ui/icons/MoveToInbox";
 
 import Item from "./Item.js";
 import Cart from "./Cart.js";
 
 import { menu } from "../fakeDb/menu"
-// import './Menu.css'
-
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -62,10 +60,11 @@ export default function Menu() {
           {entry.items.map(item => {
             return (
               <Item
-                length={orderLength}
-                setLength={setOrderLength}
+                setOrderLength={setOrderLength}
                 order={orderList}
                 name={item.name}
+                price={item.price_cents}
+                image={item.image}
               />
             );
           })}
@@ -77,19 +76,23 @@ export default function Menu() {
   if (!cart) {
     // if Cart state is false it will render menu list
     return (
-      <List
-        component="nav"
-        aria-labelledby="nested-list-subheader"
-        subheader={
-          <ListSubheader component="div" id="nested-list-subheader">
-            Menu
-          </ListSubheader>
-        }
-        className={classes.root}
-      >
-      {menuList}
-        <button onClick={() => setCart(true)}>Checkout {orderLength}</button>
-      </List>
+      <div class="d-flex justify-content-center align-items-baseline">
+        <List
+          component="nav"
+          aria-labelledby="nested-list-subheader"
+          subheader={
+            <ListSubheader component="div" id="nested-list-subheader">
+              Menu
+            </ListSubheader>
+          }
+          className={classes.root}
+        >
+        {menuList}
+            <ButtonGroup fullWidth aria-label="full width outlined button group">
+             <Button onClick={() => setCart(true)}>Checkout {orderLength}</Button>
+           </ButtonGroup>
+        </List>
+      </div>
     );
   } else {
     // if cart state is true, it will render cart page
