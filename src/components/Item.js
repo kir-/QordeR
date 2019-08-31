@@ -49,9 +49,9 @@ export default function Item(props) {
       onKeyDown={toggleDrawer("bottom", false)}
     >
       <List>
-        <p> {props.name} </p>
+        <p>{props.name}</p>
         <hr/>
-        <p> Quantity </p>
+        <p>Quantity</p>
         <Button onClick={() => counter(count + 1)}>+</Button>
         <p>{count}</p>
         <Button onClick={() => counter(count - 1)}>-</Button>
