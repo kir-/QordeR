@@ -41,8 +41,8 @@ export default function Admin() {
               autoComplete="current-password"
               margin="normal"
             />
-          <Button type="submit" variant="outlined" color="primary" className={classes.button}>
-              Submit
+            <Button type="submit" variant="outlined" color="primary" className={classes.button}>
+              Log In
             </Button>
           </FormControl>
         </div>
