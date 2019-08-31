@@ -1,28 +1,33 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
+import TopBar from './TopBar'
 const axios = require('axios');
 
 
-export default function Order(props){
+export default function Order(props) {
   const [order, setOrder] = useState();
-  useEffect(()=>{
+  useEffect(() => {
     axios.get('/api/getMenu')
-        .then(res => {
-          console.log(res)
-          setOrder(res.data)})
-  },[])
-  if(order){
-    return(
+      .then(res => {
+        console.log(res)
+        setOrder(res.data)
+      })
+  }, [])
+  if (order) {
+    return (
       <div className="App">
-          <h1>Your Order</h1>
-            <div>
-              {order.map((item) => {
-                return(
-                  <div>
-                    {item}
-                  </div>
-                );
-              })}
-            </div>
+        <TopBar title="Your Order"/>
+        <br/>
+        <br/>
+        <br/>
+          <div>
+            {order.map((item) => {
+              return(
+                <div>
+                  {item}
+                </div>
+              );
+            })}
+          </div>
       </div>
     );
   } else {

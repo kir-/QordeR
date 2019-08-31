@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
+import TopBar from './TopBar'
 const axios = require('axios');
-import {navigate} from "hookrouter";
+import { navigate } from "hookrouter";
 // import routes from "../router";
 
-export default function(props){
+export default function(props) {
   const [order, setOrder] = useState("");
 
   const sendOrder = () => {
@@ -14,16 +15,23 @@ export default function(props){
     )
   }
 
-  return(
-    <form onSubmit={event => event.preventDefault()}>
-    Menu Item:<br></br>
-    <input 
-    type="text" 
-    name="Menu"
-    onChange={event => setOrder(event.target.value)}
-    ></input>
-    <br></br>
-    <button onClick={()=>sendOrder()}>Order Now!</button>
-    </form>
+  return (
+    <Fragment>
+      <TopBar title="All Orders" admin/>
+      <br/>
+      <br/>
+      <br/>
+      <form onSubmit={event => event.preventDefault()}>
+        Menu Item:
+        <br></br>
+        <input
+          type="text"
+          name="Menu"
+          onChange={event => setOrder(event.target.value)}
+        ></input>
+        <br/>
+        <button onClick={()=> sendOrder()}>Order Now!</button>
+      </form>
+    </Fragment>
   )
 }

@@ -1,18 +1,15 @@
-import React from "react";
+import React, { Fragment, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import ListSubheader from "@material-ui/core/ListSubheader";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import Collapse from "@material-ui/core/Collapse";
+
+import { List, ListSubheader, ListItem, ListItemIcon, ListItemText, Collapse, Button, ButtonGroup } from "@material-ui/core"
+
+import { ExpandLess, ExpandMore } from "@material-ui/icons"
 import InboxIcon from "@material-ui/icons/MoveToInbox";
-import ExpandLess from "@material-ui/icons/ExpandLess";
-import ExpandMore from "@material-ui/icons/ExpandMore";
+
 import Item from "./Item.js";
 import Cart from "./Cart.js";
-// import './Menu.css'
 
+import { menu } from "../fakeDb/menu"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -26,386 +23,76 @@ const useStyles = makeStyles(theme => ({
 }));
 const orderList = {};
 
-// fake datas
-const arr_app = [
-  "Miso Soup",
-  "House Green Salad",
-  "Gyoze",
-  "Edamame",
-  "Harumaki",
-  "Seaweed Salad",
-  "Agedashi Tofu",
-  "Sunomono Salad",
-  "Chicken Karage",
-  "Soft Shell Crab",
-  "Tuna Tataki",
-  "Potato Croquette",
-  "Tuna Carppachio"
-];
-const arr_tempura = [
-  "Prawn Tempura",
-  "Yam Tempura",
-  "Vegetable Tempura",
-  "Assorted Tempura",
-  "Appetizer Tempura",
-  "Sweet Potato Tempura"
-];
-const arr_udon = [
-  "Plain Udon",
-  "Beef Udon",
-  "Chicken Udon",
-  "Seafood Udon",
-  "Beef Yakiudon",
-  "Chicken Yakiudon",
-  "Seafood Yakiudon",
-  "Nabeyaki Udon"
-];
-const arr_carte = [
-  "Chicken Teriyaki",
-  "Beef Teriyaki",
-  "Chicken Curry",
-  "Beef Curry",
-  "Chicken Teriyaki Donburi",
-  "Beef Teriyaki Donburi",
-  "Sable Fish",
-  "Unagi Donburi"
-];
-
-const arr_maki = [
-  "Kappa Roll",
-  "Oshinko Roll",
-  "Salmon Roll",
-  "Tuna Roll",
-  "Negitoro Roll",
-  "California Roll",
-  "Salmon Avocado Roll",
-  "Yam Tempura Roll",
-  "BC Roll",
-  "Dynamite Roll",
-  "Mango Roll",
-  "Philadelphia Roll",
-  "Unagi Roll",
-  "Chopped Scallop Roll",
-  "Spicy Salmon Roll",
-  "Spicy Tuna Roll"
-];
-
-const arr_temaki = [
-  "Tuna Cone",
-  "Salmon Cone",
-  "Chopped Scallop Cone",
-  "Spicy Tuna Cone",
-  "Spicy Salmon Cone",
-  "Spicy Chopped Scallop Cone"
-];
-const arr_nigiri = [
-  "Inari",
-  "Tamago",
-  "Hokkigai",
-  "Wakame",
-  "Tuna",
-  "Salmon",
-  "Sockeye Salmon",
-  "Masago",
-  "Saba",
-  "Ebi",
-  "Chopped Scallop",
-  "Tobiko",
-  "Tai",
-  "Ika",
-  "Toro",
-  "Tobiko & Quall Egg",
-  "Smoke Salmon",
-  "Tako",
-  "Amaebi",
-  "Hotategai",
-  "Unagi",
-  "Ikura",
-  "Hamachi",
-  "Red Tuna",
-  "Uni"
-];
-
-const arr_sashimi = [
-  "Salmon Sashimi",
-  "Tuna Sashimi",
-  "Spicy Salmon Sashimi",
-  "Spicy Tuna Sashimi",
-  "Tuna & Salmon Sashimi",
-  "Sockeye Salmon Sashimi",
-  "Hokkigai Sashimi",
-  "Toro Sashimi",
-  "Tako Sashimi",
-  "Amaebi Sashimi",
-  "Hamachi Sashimi",
-  "Assorted Sashimi",
-  "Red Tuna Sashimi",
-  "Uni Sashimi"
-];
-
-const arr_combo = [
-  "Party Tray A",
-  "Party Tray B",
-  "Party Tray C",
-  "Spicy Combo"
-];
-
 export default function Menu() {
-  // Menu Components
+  const [state, setState] = useState("");
+  const [cart, setCart] = React.useState(false);
+  const [orderLength, setOrderLength] = React.useState(0);
 
   const classes = useStyles();
-  const [appetizer, setAppetizer] = React.useState(false);
-  const [tempura, setTempura] = React.useState(false);
-  const [udon, setUdon] = React.useState(false);
-  const [carte, setCarte] = React.useState(false);
-  const [maki, setMaki] = React.useState(false);
-  const [temaki, setTemaki] = React.useState(false);
-  const [nigiri, setNigiri] = React.useState(false);
-  const [sashimi, setSashimi] = React.useState(false);
-  const [combination, setCombination] = React.useState(false);
-  const [orderLength, setOrderLength] = React.useState(0);
-  const [cart, setCart] = React.useState(false);
-  // These are states that need to be refactored later with Reducer or Redux
 
-  if (!cart) {
-    // if Cart state is false it will render menu list
+  // renders out a list of menu categories and items
+  // data structure is located in fakeDb/menu.js
+  // expects menu to be something like:
+  //   menu = {
+  //   category: "string",
+  //   items: array of [
+  //     name: "string",
+  //     price_cents: int,
+  //     image: 'url string'
+  //   ]
+  // }
+  // can update the items to just old an array of ids later
+  const menuList = menu.map((entry, index) => {
     return (
-      <List
-        component="nav"
-        aria-labelledby="nested-list-subheader"
-        subheader={
-          <ListSubheader component="div" id="nested-list-subheader">
-            Menu
-          </ListSubheader>
-        }
-        className={classes.root}
-      >
-        <ListItem
-          button
-          onClick={() =>
-            appetizer ? setAppetizer(!appetizer) : setAppetizer(!appetizer)
-          }
-        >
+      <Fragment>
+        <ListItem key={index} button onClick={() =>
+          state === entry.category ? setState(null) : setState(entry.category)
+        }>
           <ListItemIcon>
             <InboxIcon />
           </ListItemIcon>
-          <ListItemText primary="Appetizer" />
-          {appetizer ? <ExpandMore /> : <ExpandLess />}
+
+          <ListItemText primary={entry.category} />
+          {state === entry.category ? <ExpandMore /> : <ExpandLess />}
         </ListItem>
-        <Collapse in={appetizer} timeout="auto" unmountOnExit>
-          {arr_app.map(value => {
+
+        <Collapse in={state === entry.category} timeout="auto" unmountOnExit>
+          {entry.items.map(item => {
             return (
               <Item
-                length={orderLength}
-                setLength={setOrderLength}
+                setOrderLength={setOrderLength}
                 order={orderList}
-                name={value}
+                name={item.name}
+                price={item.price_cents}
+                image={item.image}
               />
             );
           })}
         </Collapse>
-        <ListItem
-          button
-          onClick={() =>
-            tempura ? setTempura(!tempura) : setTempura(!tempura)
+      </Fragment>
+    )
+  })
+
+  if (!cart) {
+    // if Cart state is false it will render menu list
+    return (
+      <div class="d-flex justify-content-center align-items-baseline">
+        <List
+          component="nav"
+          aria-labelledby="nested-list-subheader"
+          subheader={
+            <ListSubheader component="div" id="nested-list-subheader">
+              Menu
+            </ListSubheader>
           }
+          className={classes.root}
         >
-          <ListItemIcon>
-            <InboxIcon />
-          </ListItemIcon>
-          <ListItemText primary="Tempura" />
-          {tempura ? <ExpandMore /> : <ExpandLess />}
-        </ListItem>
-        <Collapse in={tempura} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
-            {arr_tempura.map(value => {
-              return (
-                <Item
-                  length={orderLength}
-                  setLength={setOrderLength}
-                  order={orderList}
-                  name={value}
-                />
-              );
-            })}
-          </List>
-        </Collapse>
-        <ListItem
-          button
-          onClick={() => (udon ? setUdon(!udon) : setUdon(!udon))}
-        >
-          <ListItemIcon>
-            <InboxIcon />
-          </ListItemIcon>
-          <ListItemText primary="Udon" />
-          {udon ? <ExpandMore /> : <ExpandLess />}
-        </ListItem>
-        <Collapse in={udon} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
-            {arr_udon.map(value => {
-              return (
-                <Item
-                  length={orderLength}
-                  setLength={setOrderLength}
-                  order={orderList}
-                  name={value}
-                />
-              );
-            })}
-          </List>
-        </Collapse>
-        <ListItem
-          button
-          onClick={() => (carte ? setCarte(!carte) : setCarte(!carte))}
-        >
-          <ListItemIcon>
-            <InboxIcon />
-          </ListItemIcon>
-          <ListItemText primary="Carte" />
-          {carte ? <ExpandMore /> : <ExpandLess />}
-        </ListItem>
-        <Collapse in={carte} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
-            {arr_carte.map(value => {
-              return (
-                <Item
-                  length={orderLength}
-                  setLength={setOrderLength}
-                  order={orderList}
-                  name={value}
-                />
-              );
-            })}
-          </List>
-        </Collapse>
-        <ListItem
-          button
-          onClick={() => (maki ? setMaki(!maki) : setMaki(!maki))}
-        >
-          <ListItemIcon>
-            <InboxIcon />
-          </ListItemIcon>
-          <ListItemText primary="Maki" />
-          {maki ? <ExpandMore /> : <ExpandLess />}
-        </ListItem>
-        <Collapse in={maki} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
-            {arr_maki.map(value => {
-              return (
-                <Item
-                  length={orderLength}
-                  setLength={setOrderLength}
-                  order={orderList}
-                  name={value}
-                />
-              );
-            })}
-          </List>
-        </Collapse>
-        <ListItem
-          button
-          onClick={() => (temaki ? setTemaki(!temaki) : setTemaki(!temaki))}
-        >
-          <ListItemIcon>
-            <InboxIcon />
-          </ListItemIcon>
-          <ListItemText primary="Temaki" />
-          {temaki ? <ExpandMore /> : <ExpandLess />}
-        </ListItem>
-        <Collapse in={temaki} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
-            {arr_temaki.map(value => {
-              return (
-                <Item
-                  length={orderLength}
-                  setLength={setOrderLength}
-                  order={orderList}
-                  name={value}
-                />
-              );
-            })}
-          </List>
-        </Collapse>
-        <ListItem
-          button
-          onClick={() => (nigiri ? setNigiri(!nigiri) : setNigiri(!nigiri))}
-        >
-          <ListItemIcon>
-            <InboxIcon />
-          </ListItemIcon>
-          <ListItemText primary="Nigiri" />
-          {nigiri ? <ExpandMore /> : <ExpandLess />}
-        </ListItem>
-        <Collapse in={nigiri} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
-            {arr_nigiri.map(value => {
-              return (
-                <Item
-                  length={orderLength}
-                  setLength={setOrderLength}
-                  order={orderList}
-                  name={value}
-                />
-              );
-            })}
-          </List>
-        </Collapse>
-        <ListItem
-          button
-          onClick={() =>
-            sashimi ? setSashimi(!sashimi) : setSashimi(!sashimi)
-          }
-        >
-          <ListItemIcon>
-            <InboxIcon />
-          </ListItemIcon>
-          <ListItemText primary="Sashimi" />
-          {sashimi ? <ExpandMore /> : <ExpandLess />}
-        </ListItem>
-        <Collapse in={sashimi} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
-            {arr_sashimi.map(value => {
-              return (
-                <Item
-                  length={orderLength}
-                  setLength={setOrderLength}
-                  order={orderList}
-                  name={value}
-                />
-              );
-            })}
-          </List>
-        </Collapse>
-        <ListItem
-          button
-          onClick={() =>
-            combination
-              ? setCombination(!combination)
-              : setCombination(!combination)
-          }
-        >
-          <ListItemIcon>
-            <InboxIcon />
-          </ListItemIcon>
-          <ListItemText primary="Combination" />
-          {combination ? <ExpandMore /> : <ExpandLess />}
-        </ListItem>
-        <Collapse in={combination} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
-            {arr_combo.map(value => {
-              return (
-                <Item
-                  length={orderLength}
-                  setLength={setOrderLength}
-                  order={orderList}
-                  name={value}
-                />
-              );
-            })}
-          </List>
-        </Collapse>
-        <button onClick={() => setCart(true)}>Checkout {orderLength}</button>
-      </List>
+        {menuList}
+            <ButtonGroup fullWidth aria-label="full width outlined button group">
+             <Button onClick={() => setCart(true)}>Checkout {orderLength}</Button>
+           </ButtonGroup>
+        </List>
+      </div>
     );
   } else {
     // if cart state is true, it will render cart page

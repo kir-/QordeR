@@ -24,7 +24,6 @@ function createData(name, quantity, price) {
 
 const rows = []
 
-
 const useStyles2 = makeStyles(theme => ({
   root: {
     width: "100%",
