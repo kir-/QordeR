@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import TopNav from './TopNav'
+import TopBar from './TopBar'
 const axios = require('axios');
 
 
@@ -15,16 +15,19 @@ export default function Order(props) {
   if (order) {
     return (
       <div className="App">
-          <h1>Your Order</h1>
-            <div>
-              {order.map((item) => {
-                return(
-                  <div>
-                    {item}
-                  </div>
-                );
-              })}
-            </div>
+        <TopBar title="Your Order"/>
+        <br/>
+        <br/>
+        <br/>
+          <div>
+            {order.map((item) => {
+              return(
+                <div>
+                  {item}
+                </div>
+              );
+            })}
+          </div>
       </div>
     );
   } else {
