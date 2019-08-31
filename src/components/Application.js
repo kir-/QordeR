@@ -1,6 +1,5 @@
 import React from "react";
-// import Menu from "./Menu.js";
-// import Item from "./Item.js"
+import Menu from "./Menu.js";
 import 'typeface-roboto';
 
 
