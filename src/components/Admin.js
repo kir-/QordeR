@@ -1,7 +1,9 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles'
-import { TextField, FormControl, Button } from '@material-ui/core';
+import { FormControl, TextField, Button } from '@material-ui/core';
+import { navigate } from 'hookrouter';
 import TopBar from './TopBar';
+import axios from 'axios';
 
 const useStyles = makeStyles(theme => ({
   textField: {
@@ -16,35 +18,68 @@ const useStyles = makeStyles(theme => ({
 
 export default function Admin() {
   const classes = useStyles();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  function validate() {
+    if (!email) {
+      setError("Please enter your email!")
+      return
+    }
+    if (!password) {
+      setError("Please enter your password!")
+      return;
+    }
+    login(email, password)
+  }
+
+  function login(email, password) {
+    return (
+      axios.post(`/login`, { email, password })
+        .then((response) => {
+          navigate('/restaurant')
+        })
+        .catch((error) => {
+          setError("Incorrect email or password")
+        })
+    )
+  }
+
   return (
     <Fragment>
-      <TopBar title="Admin Login for #restaurantName#"/>
+      <TopBar title="Restaurant Login"/>
       <br/>
       <br/>
       <br/>
-      <div class="row">
-        <div class="col offset-2">
-          <FormControl>
+      <div className="row">
+        <div className="col text-center">
+          <form onSubmit={(event) => event.preventDefault()}>
             <TextField
-              id="standard-email-input"
               label="Email"
               className={classes.textField}
+              error={error}
               type="email"
-              autoComplete="current-email"
+              name="email"
+              onChange={(event) => setEmail(event.target.value)}
               margin="normal"
             />
+          <br/>
             <TextField
-              id="standard-password-input"
               label="Password"
               className={classes.textField}
+              error={error}
               type="password"
-              autoComplete="current-password"
+              name="password"
+              onChange={(event) => setPassword(event.target.value)}
               margin="normal"
             />
-            <Button type="submit" variant="outlined" color="primary" className={classes.button}>
-              Log In
-            </Button>
-          </FormControl>
+          <p>{error}</p>
+          <br/>
+          <Button type="submit" onClick={validate} variant="outlined" color="primary" className={classes.button}>
+            Log In
+          </Button>
+          </form>
         </div>
       </div>
     </Fragment>
