@@ -1,6 +1,5 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import TopBar from '../TopBar'
-import { navigate } from "hookrouter";
 import { Button } from "@material-ui/core";
 import Table from './Table';
 import MenuEdit from './MenuEdit';
@@ -13,10 +12,6 @@ const EDIT = "EDIT";
 export default function(props) {
   const [order, setOrder] = useState("");
   const [state, setState] = useState(TABLES)
-
-  useEffect(() => {
-    axios.get(`/restaurant/`)
-  })
 
   return (
     <Fragment>
