@@ -1,7 +1,8 @@
 import React from 'react';
+import Menu from '../Menu';
 
 export default function MenuEdit(props) {
   return (
-    <p>Menu Edit</p>
+    <Menu/>
   )
 }

@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import TopBar from '../TopBar'
 import { navigate } from "hookrouter";
 import { Button } from "@material-ui/core";
@@ -14,24 +14,20 @@ export default function(props) {
   const [order, setOrder] = useState("");
   const [state, setState] = useState(TABLES)
 
-  const sendOrder = () => {
-    axios.post('/api/getMenu', {
-      order
-    }).then(
-      navigate('/order')
-    )
-  }
+  useEffect(() => {
+    axios.get(`/restaurant/`)
+  })
 
   return (
     <Fragment>
-      <TopBar title="All Orders" admin/>
+      <TopBar title="All Orders"/>
       <br/>
       <br/>
       <br/>
       <div class="text-center">
         <Button onClick={() => setState(TABLES)}>Tables</Button> | <Button onClick={() => setState(EDIT)}>Edit Menu</Button>
       </div>
-      <div>
+      <div class="text-center">
         {state === TABLES && <Table/>}
         {state === EDIT && <MenuEdit/>}
       </div>
