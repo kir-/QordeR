@@ -22,6 +22,7 @@ export default function Admin() {
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [loginError, setLoginError] = useState("");
 
   function validate() {
     if (!email) {
@@ -36,12 +37,10 @@ export default function Admin() {
     setPasswordError("");
 
     login(email, password)
-      .then((response) => {
-        navigate('/restaurant')
-      })
-      .catch((error) => {
-        setPasswordError("Incorrect email or password")
-      });
+    .then((response) => {
+      setLoginError("Incorrect username or password!")
+      navigate(response.data);
+    })
   }
 
   function login(email, password) {
@@ -62,7 +61,7 @@ export default function Admin() {
             <TextField
               label="Email"
               className={classes.textField}
-              error={emailError}
+              error={emailError || loginError}
               type="email"
               name="email"
               onChange={(event) => setEmail(event.target.value)}
@@ -72,13 +71,13 @@ export default function Admin() {
             <TextField
               label="Password"
               className={classes.textField}
-              error={passwordError}
+              error={passwordError || loginError}
               type="password"
               name="password"
               onChange={(event) => setPassword(event.target.value)}
               margin="normal"
             />
-          <p>{passwordError}</p>
+          <p>{passwordError || loginError}</p>
           <Button type="submit" onClick={() => validate()} variant="outlined" color="primary" className={classes.button}>
             Log In
           </Button>
