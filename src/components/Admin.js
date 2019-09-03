@@ -35,6 +35,7 @@ export default function Admin() {
     }
     setEmailError("");
     setPasswordError("");
+    setLoginError("");
 
     login(email, password)
     .then((response) => {
