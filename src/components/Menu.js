@@ -1,8 +1,6 @@
 import React, { Fragment, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-
 import { List, ListSubheader, ListItem, ListItemIcon, ListItemText, Collapse, Button, ButtonGroup } from "@material-ui/core"
-
 import { ExpandLess, ExpandMore } from "@material-ui/icons"
 import InboxIcon from "@material-ui/icons/MoveToInbox";
 
@@ -22,13 +20,25 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 const orderList = {};
+let rows = [];
 
 export default function Menu() {
   const [state, setState] = useState("");
   const [cart, setCart] = React.useState(false);
   const [orderLength, setOrderLength] = React.useState(0);
-
   const classes = useStyles();
+  function createData(name, quantity, price) {
+    return { name, quantity, price };
+  }
+  const makeRows = function() {
+    const items = Object.keys(orderList);
+    const quantity = Object.values(orderList);
+    rows = []
+    for (let i = 0; i < items.length; i++) {
+      rows.push(createData(items[i], quantity[i]));
+    }
+    setCart(true)
+  }
 
   // renders out a list of menu categories and items
   // data structure is located in fakeDb/menu.js
@@ -89,7 +99,7 @@ export default function Menu() {
         >
         {menuList}
             <ButtonGroup fullWidth aria-label="full width outlined button group">
-             <Button onClick={() => setCart(true)}>Checkout {orderLength}</Button>
+             <Button onClick={() => makeRows()}>Checkout {orderLength}</Button>
            </ButtonGroup>
         </List>
       </div>
@@ -97,10 +107,7 @@ export default function Menu() {
   } else {
     // if cart state is true, it will render cart page
     return (
-      <div>
-        <button onClick={() => setCart(false)}>0==8</button>
-        <Cart order={orderList} />
-      </div>
+        <Cart setCart={()=> setCart()} order={orderList} rows={rows} />
     );
   }
 }
