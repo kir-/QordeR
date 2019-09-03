@@ -1,4 +1,0 @@
-/    /   200
-/restaurant/:id    /restaurant/:id    200
-/:restoId/order/:id    /:restoId/order/:id    200
-/admin    /admin    200
