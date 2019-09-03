@@ -107,7 +107,7 @@ export default function Menu() {
   } else {
     // if cart state is true, it will render cart page
     return (
-        <Cart setCart={()=> setCart()} order={orderList} rows={rows} />
+        <Cart setOrderLength={setOrderLength} setCart={()=> setCart()} order={orderList} rows={rows} />
     );
   }
 }
