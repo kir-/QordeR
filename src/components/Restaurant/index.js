@@ -1,6 +1,5 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import TopBar from '../TopBar'
-import { navigate } from "hookrouter";
 import { Button } from "@material-ui/core";
 import Table from './Table';
 import MenuEdit from './MenuEdit';
@@ -10,17 +9,17 @@ const axios = require('axios');
 const TABLES = "TABLES";
 const EDIT = "EDIT";
 
-export default function(props) {
+export default function Restaurant(props) {
   const [order, setOrder] = useState("");
   const [state, setState] = useState(TABLES)
 
-  useEffect(() => {
-    axios.get(`/restaurant/`)
-  })
+  /*props
+    id: restaurant's id
+  */
 
   return (
     <Fragment>
-      <TopBar title="All Orders"/>
+      <TopBar title="All Orders" admin/>
       <br/>
       <br/>
       <br/>
@@ -28,8 +27,8 @@ export default function(props) {
         <Button onClick={() => setState(TABLES)}>Tables</Button> | <Button onClick={() => setState(EDIT)}>Edit Menu</Button>
       </div>
       <div class="text-center">
-        {state === TABLES && <Table/>}
-        {state === EDIT && <MenuEdit/>}
+        {state === TABLES && <Table restaurantId={props.id}/>}
+        {state === EDIT && <MenuEdit restaurantId={props.id}/>}
       </div>
     </Fragment>
   )

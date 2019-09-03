@@ -20,29 +20,32 @@ export default function Admin() {
   const classes = useStyles();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [loginError, setLoginError] = useState("");
 
   function validate() {
     if (!email) {
-      setError("Please enter your email!")
-      return
-    }
-    if (!password) {
-      setError("Please enter your password!")
+      setEmailError("Please enter your email!")
       return;
     }
+    if (!password) {
+      setPasswordError("Please enter your password!")
+      return;
+    }
+    setEmailError("");
+    setPasswordError("");
+
     login(email, password)
+    .then((response) => {
+      setLoginError("Incorrect username or password!")
+      navigate(response.data);
+    })
   }
 
   function login(email, password) {
     return (
-      axios.post(`/login`, { email, password })
-        .then((response) => {
-          navigate('/restaurant')
-        })
-        .catch((error) => {
-          setError("Incorrect email or password")
-        })
+      axios.post('/login', { email, password })
     )
   }
 
@@ -58,25 +61,24 @@ export default function Admin() {
             <TextField
               label="Email"
               className={classes.textField}
-              error={error}
+              error={emailError || loginError}
               type="email"
               name="email"
               onChange={(event) => setEmail(event.target.value)}
               margin="normal"
             />
-          <br/>
+            <p>{emailError}</p>
             <TextField
               label="Password"
               className={classes.textField}
-              error={error}
+              error={passwordError || loginError}
               type="password"
               name="password"
               onChange={(event) => setPassword(event.target.value)}
               margin="normal"
             />
-          <p>{error}</p>
-          <br/>
-          <Button type="submit" onClick={validate} variant="outlined" color="primary" className={classes.button}>
+          <p>{passwordError || loginError}</p>
+          <Button type="submit" onClick={() => validate()} variant="outlined" color="primary" className={classes.button}>
             Log In
           </Button>
           </form>
