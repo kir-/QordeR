@@ -3,10 +3,10 @@ import { makeStyles } from "@material-ui/core/styles";
 import { List, ListSubheader, ListItem, ListItemIcon, ListItemText, Collapse, Button, ButtonGroup } from "@material-ui/core"
 import { ExpandLess, ExpandMore } from "@material-ui/icons"
 import InboxIcon from "@material-ui/icons/MoveToInbox";
-import { menu } from "fakeDb/menu";
+import { menu } from "fakeDb/menu"
 
-import { Item, Cart } from "components/Menu";
-
+import Item from "components/Menu/Item";
+import Cart from "components/Menu/Cart";
 
 const useStyles = makeStyles(theme => ({
   root: {

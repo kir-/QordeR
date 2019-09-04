@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import TopBar from './TopBar'
+import TopBar from 'components/TopBar';
 const axios = require('axios');
 
 

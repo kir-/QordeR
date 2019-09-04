@@ -1,21 +1,24 @@
 import React, { useState, useEffect, Fragment } from 'react';
-import TopBar from '../TopBar'
+import TopBar from "components/TopBar"
 import { Button } from "@material-ui/core";
-import Table from './Table';
-import MenuEdit from './MenuEdit';
+import MenuEdit from 'components/Restaurant/MenuEdit';
+import Table from 'components/Restaurant/Table';
 
 const axios = require('axios');
 
 const TABLES = "TABLES";
 const EDIT = "EDIT";
 
+/*props
+  id: restaurant's id
+*/
+
 export default function Restaurant(props) {
-  const [order, setOrder] = useState("");
   const [state, setState] = useState(TABLES)
 
-  /*props
-    id: restaurant's id
-  */
+  useEffect(() => {
+
+  })
 
   return (
     <Fragment>
