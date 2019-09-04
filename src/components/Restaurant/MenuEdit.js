@@ -1,5 +1,5 @@
 import React from 'react';
-import Menu from '../Menu';
+import Menu from 'components/Menu';
 
 export default function MenuEdit(props) {
   return (

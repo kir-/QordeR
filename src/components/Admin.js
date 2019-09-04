@@ -2,7 +2,7 @@ import React, { Fragment, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles'
 import { FormControl, TextField, Button } from '@material-ui/core';
 import { navigate } from 'hookrouter';
-import TopBar from './TopBar';
+import TopBar from 'components/TopBar';
 import axios from 'axios';
 
 const useStyles = makeStyles(theme => ({
