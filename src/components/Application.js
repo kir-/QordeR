@@ -1,6 +1,6 @@
 import React from "react";
-import Menu from './Menu';
-import TopBar from "./TopBar.js";
+import TopBar from 'components/TopBar';
+import Menu from 'components/Menu';
 import 'typeface-roboto';
 
 
