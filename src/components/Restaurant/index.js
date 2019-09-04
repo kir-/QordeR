@@ -1,5 +1,7 @@
 import React, { useState, useEffect, Fragment } from 'react';
-import TopBar from "components/TopBar"
+import TopBar from "components/TopBar";
+import { navigate } from 'hookrouter';
+import { useCookies } from 'react-cookie';
 import { Button } from "@material-ui/core";
 import MenuEdit from 'components/Restaurant/MenuEdit';
 import Table from 'components/Restaurant/Table';
@@ -15,10 +17,13 @@ const EDIT = "EDIT";
 
 export default function Restaurant(props) {
   const [state, setState] = useState(TABLES)
+  const [cookies] = useCookies(['user']);
 
   useEffect(() => {
-
-  })
+    if (!cookies.user || cookies.user !== props.id) {
+      navigate(`/admin`);
+    }
+  }, [])
 
   return (
     <Fragment>

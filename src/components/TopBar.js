@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
 export default function TopBar(props) {
   const classes = useStyles();
 
-  const [cookies, setCookie, removeCookie] = useCookies();
+  const [cookies, setCookie, removeCookie] = useCookies('user');
 
   function logout() {
     axios.post('/logout')
@@ -51,6 +51,3 @@ export default function TopBar(props) {
     </div>
   );
 }
-// <IconButton edge="start" className="menuButton" color="inherit" aria-label="menu">
-// <MenuIcon />
-// </IconButton>
