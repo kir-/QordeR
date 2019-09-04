@@ -1,8 +1,8 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import TopBar from "components/TopBar"
 import { Button } from "@material-ui/core";
-import { MenuEdit } from 'components/Menu';
-import { Table } from 'components/Restaurant';
+import MenuEdit from 'components/Restaurant/MenuEdit';
+import Table from 'components/Restaurant/Table';
 
 const axios = require('axios');
 

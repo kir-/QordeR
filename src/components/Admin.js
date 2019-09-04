@@ -20,9 +20,9 @@ export default function Admin() {
   const classes = useStyles();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-  const [loginError, setLoginError] = useState("");
+  const [emailError, setEmailError] = useState();
+  const [passwordError, setPasswordError] = useState();
+  const [loginError, setLoginError] = useState();
 
   function validate() {
     if (!email) {
@@ -35,6 +35,7 @@ export default function Admin() {
     }
     setEmailError("");
     setPasswordError("");
+    setLoginError("");
 
     login(email, password)
     .then((response) => {
@@ -61,7 +62,7 @@ export default function Admin() {
             <TextField
               label="Email"
               className={classes.textField}
-              error={emailError || loginError}
+              error={!!emailError || !!loginError}
               type="email"
               name="email"
               onChange={(event) => setEmail(event.target.value)}
@@ -71,13 +72,14 @@ export default function Admin() {
             <TextField
               label="Password"
               className={classes.textField}
-              error={passwordError || loginError}
+              error={!!passwordError || !!loginError}
               type="password"
               name="password"
               onChange={(event) => setPassword(event.target.value)}
               margin="normal"
             />
-          <p>{passwordError || loginError}</p>
+          <p>{passwordError}</p>
+          <p>{loginError}</p>
           <Button type="submit" onClick={() => validate()} variant="outlined" color="primary" className={classes.button}>
             Log In
           </Button>
