@@ -133,6 +133,7 @@ export default function Cart(props) {
         </Paper>
         <Button onClick={() => console.log(rows)}>Place Order</Button>
         <Button onClick={() => clear()}>Clear Cart</Button>
+        <Button onClick={() => console.log("hi")}> hi </Button>
       </div>
     </div>
   );
