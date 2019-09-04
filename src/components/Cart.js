@@ -46,9 +46,21 @@ function decrementer(name, order, row) {
     row["quantity"] = i.value;
   }
 }
-
+[2,3]
 export default function Cart(props) {
   const [rows, setRows] = useState(props.rows)
+  const deleteItem = function(index) {
+    console.log(props.rows[index].name)
+    let result = props.rows.filter(row => row.name !== props.rows[index].name);
+    const emptyItem = rows.filter(row => row ==="empty");
+    setRows(emptyItem)
+    console.log(rows)
+  }
+  const clear = function() {
+    setRows([])
+    for (let item in props.order) delete props.order[item];
+    props.setOrderLength(0)
+  }
   const goBack = function() {
     props.setCart(false);
   };
@@ -67,6 +79,7 @@ export default function Cart(props) {
             <Table className={classes.table}>
               <TableHead>
                 <TableRow>
+                  <StyledTableCell></StyledTableCell>
                   <StyledTableCell>Item</StyledTableCell>
                   <StyledTableCell>Quantity</StyledTableCell>
                   <StyledTableCell>Price</StyledTableCell>
@@ -77,6 +90,9 @@ export default function Cart(props) {
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map(row => (
                     <TableRow key={row.name}>
+                      <TableCell>
+                        <Button onClick={() => deleteItem(rows.indexOf(row))}>x</Button>
+                      </TableCell>
                       <TableCell component="th" scope="row">
                         {row.name}
                       </TableCell>
@@ -84,7 +100,7 @@ export default function Cart(props) {
                         <p>
                           <input
                             type="text"
-                            readOnly="readonly"
+                            readOnly="readOnly"
                             id={row.name}
                             value={row.quantity}
                           />
@@ -116,6 +132,8 @@ export default function Cart(props) {
           </div>
         </Paper>
         <Button onClick={() => console.log(rows)}>Place Order</Button>
+        <Button onClick={() => clear()}>Clear Cart</Button>
+        <Button onClick={() => console.log("hi")}> hi </Button>
       </div>
     </div>
   );
