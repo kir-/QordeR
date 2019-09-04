@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
 export default function TopBar(props) {
   const classes = useStyles();
 
-  const [cookies, setCookie, removeCookie] = useCookies(['user']);
+  const [cookies, setCookie, removeCookie] = useCookies();
 
   function logout() {
     axios.post('/logout')
