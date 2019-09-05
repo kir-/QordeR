@@ -7,7 +7,7 @@ import Application from "components/Application";
 const routes = {
   "/": () => <Application />,
   "/:restoId/order/:id": ({ restoId, id }) => <Order restoId={restoId} id={id}/>,
-  "/admin/:id": ({ id }) => <Restaurant id={id}/>,
+  "/admin/:restoId": ({ restoId }) => <Restaurant restoId={restoId}/>,
   "/admin": () => <Admin />
 };
 
