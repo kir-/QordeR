@@ -1,8 +1,9 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles'
-import { FormControl, TextField, Button } from '@material-ui/core';
+import { TextField, Button } from '@material-ui/core';
 import { navigate } from 'hookrouter';
-import TopBar from './TopBar';
+import { useCookies } from 'react-cookie';
+import TopBar from 'components/TopBar';
 import axios from 'axios';
 
 const useStyles = makeStyles(theme => ({
@@ -20,9 +21,17 @@ export default function Admin() {
   const classes = useStyles();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-  const [loginError, setLoginError] = useState("");
+  const [emailError, setEmailError] = useState();
+  const [passwordError, setPasswordError] = useState();
+  const [loginError, setLoginError] = useState();
+
+  const [cookies] = useCookies(['user']);
+
+  useEffect(() => {
+    if (cookies.user) {
+      navigate(`/admin/${cookies.user}`);
+    }
+  }, [])
 
   function validate() {
     if (!email) {
@@ -35,12 +44,13 @@ export default function Admin() {
     }
     setEmailError("");
     setPasswordError("");
+    setLoginError("");
 
     login(email, password)
-    .then((response) => {
-      setLoginError("Incorrect username or password!")
-      navigate(response.data);
-    })
+      .then((response) => {
+        setLoginError("Incorrect username or password!")
+        navigate(response.data);
+      })
   }
 
   function login(email, password) {
@@ -61,7 +71,7 @@ export default function Admin() {
             <TextField
               label="Email"
               className={classes.textField}
-              error={emailError || loginError}
+              error={!!emailError || !!loginError}
               type="email"
               name="email"
               onChange={(event) => setEmail(event.target.value)}
@@ -71,13 +81,14 @@ export default function Admin() {
             <TextField
               label="Password"
               className={classes.textField}
-              error={passwordError || loginError}
+              error={!!passwordError || !!loginError}
               type="password"
               name="password"
               onChange={(event) => setPassword(event.target.value)}
               margin="normal"
             />
-          <p>{passwordError || loginError}</p>
+          <p>{passwordError}</p>
+          <p>{loginError}</p>
           <Button type="submit" onClick={() => validate()} variant="outlined" color="primary" className={classes.button}>
             Log In
           </Button>

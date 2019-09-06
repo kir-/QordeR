@@ -3,11 +3,10 @@ import { makeStyles } from "@material-ui/core/styles";
 import { List, ListSubheader, ListItem, ListItemIcon, ListItemText, Collapse, Button, ButtonGroup } from "@material-ui/core"
 import { ExpandLess, ExpandMore } from "@material-ui/icons"
 import InboxIcon from "@material-ui/icons/MoveToInbox";
+import { menu } from "fakeDb/menu"
 
-import Item from "./Item.js";
-import Cart from "./Cart.js";
-
-import { menu } from "../fakeDb/menu"
+import Item from "components/Menu/Item";
+import Cart from "components/Menu/Cart";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -27,6 +26,7 @@ export default function Menu() {
   const [cart, setCart] = React.useState(false);
   const [orderLength, setOrderLength] = React.useState(0);
   const classes = useStyles();
+
   function createData(name, quantity, price) {
     return { name, quantity, price };
   }
@@ -107,7 +107,7 @@ export default function Menu() {
   } else {
     // if cart state is true, it will render cart page
     return (
-        <Cart setOrderLength={setOrderLength} setCart={()=> setCart()} order={orderList} rows={rows} />
+      <Cart setOrderLength={setOrderLength} setCart={()=> setCart()} order={orderList} rows={rows} />
     );
   }
 }

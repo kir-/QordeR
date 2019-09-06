@@ -4,8 +4,9 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import axios from 'axios';
 import { navigate } from 'hookrouter';
+import axios from 'axios';
+import { useCookies } from 'react-cookie';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -24,15 +25,18 @@ const useStyles = makeStyles(theme => ({
  * admin: BOOLEAN
  */
 
-function logout() {
-  axios.post('/logout')
-    .then((response) => {
-      navigate(response.data)
-    })
-}
-
 export default function TopBar(props) {
   const classes = useStyles();
+
+  const [cookies, setCookie, removeCookie] = useCookies('user');
+
+  function logout() {
+    axios.post('/logout')
+      .then((response) => {
+        removeCookie('user');
+        navigate(response.data)
+      })
+  }
 
   return (
     <div className={classes.root}>
@@ -47,6 +51,3 @@ export default function TopBar(props) {
     </div>
   );
 }
-// <IconButton edge="start" className="menuButton" color="inherit" aria-label="menu">
-// <MenuIcon />
-// </IconButton>
