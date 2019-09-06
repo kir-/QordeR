@@ -1,8 +1,8 @@
 import React from "react";
 import Restaurant from "./components/Restaurant/index";
-import Order from "components/Order";
-import Admin from "components/Admin";
-import Application from "components/Application";
+import Order from "./components/Order";
+import Admin from "./components/Admin";
+import Application from "./components/Application";
 
 const routes = {
   "/": () => <Application />,
