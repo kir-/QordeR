@@ -1,5 +1,5 @@
 import React from "react";
-import Restaurant from "components/Restaurant/index";
+import Restaurant from "components/restaurant/index";
 import Order from "components/Order";
 import Admin from "components/Admin";
 import Application from "components/Application";
