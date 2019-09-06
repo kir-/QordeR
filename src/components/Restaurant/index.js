@@ -6,7 +6,6 @@ import { Paper, Collapse, Table, TableHead, TableRow, TableCell, TableBody, Tabl
 import { makeStyles } from '@material-ui/core/styles'
 import MenuEdit from 'components/Restaurant/MenuEdit';
 import TableOrder from 'components/Restaurant/TableOrder';
-import MaterialTable from 'material-table';
 
 const axios = require('axios');
 
@@ -35,7 +34,6 @@ export default function Restaurant(props) {
     tableOrder: []
   })
   const [cookies] = useCookies(['user']);
-
   const [currentTable, setCurrentTable] = useState(null);
 
   const classes = useStyles();
@@ -47,7 +45,7 @@ export default function Restaurant(props) {
   }, []);
 
   useEffect(() => {
-    axios.get(`/api/getOrder/1`) // replace the 1 with ${tableId}
+    axios.get(`/api/getActiveOrder/1`) // replace the 1 with ${tableId}
       .then((response) => {
         setState((currentState) => {
           return ({
@@ -83,36 +81,12 @@ export default function Restaurant(props) {
           });
         });
       });
-  }, []);
+  }, [props.restoId]);
 
   useEffect(() => {
     axios.get(`/api/getOrderItems`)
 
   }, [currentTable])
-
-  const renderTableOrder = function(tableId, items) {
-    return (
-      <Collapse in={tableId === currentTable}>
-        {console.log(currentTable)}
-        <Paper className={classes.order}>
-          <Table>
-            <TableHead>
-              <TableCell>Item</TableCell>
-              <TableCell>Quantity</TableCell>
-              <TableCell>Delivered</TableCell>
-              <TableCell>Status</TableCell>
-            </TableHead>
-            <TableBody>
-              <TableCell>Test</TableCell>
-              <TableCell>Test</TableCell>
-              <TableCell>Test</TableCell>
-              <TableCell>Test</TableCell>
-            </TableBody>
-          </Table>
-        </Paper>
-      </Collapse>
-    )
-  }
 
   const renderTablePage = function() {
     return (
@@ -132,7 +106,7 @@ export default function Restaurant(props) {
               <TableBody>
                 {state.tables.map((table) => {
                   return (
-                    <TableRow onClick={() => currentTable === table.id ? setCurrentTable(null) : setCurrentTable(table.id)}>
+                    <TableRow selected={currentTable === table.id} onClick={() => currentTable === table.id ? setCurrentTable(null) : setCurrentTable(table.id)}>
                       <TableCell>
                         {table.id}
                       </TableCell>
@@ -146,7 +120,23 @@ export default function Restaurant(props) {
             </Table>
           </Paper>
           <br/>
-          {currentTable ? renderTableOrder(currentTable) : null}
+          <Paper>
+            {currentTable && <h3>Order for Table #{currentTable}</h3>}
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Item</TableCell>
+                  <TableCell>Quantity</TableCell>
+                  <TableCell>Time In</TableCell>
+                  <TableCell>Status</TableCell>
+                  <TableCell></TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableOrder name='test' quantity={3} timeIn={'test o\'clock'} status={'Waiting'} />
+              </TableBody>
+            </Table>
+          </Paper>
       </Fragment>
     )
   };
