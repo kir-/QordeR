@@ -2,7 +2,7 @@ import React, { useState, useEffect, Fragment } from 'react';
 import TopBar from "components/TopBar";
 import { navigate } from 'hookrouter';
 import { useCookies } from 'react-cookie';
-import { Paper, Collapse, Table, TableHead, TableRow, TableCell, TableBody, TablePagination, Button } from "@material-ui/core";
+import { CircularProgress, Paper, Table, TableHead, TableRow, TableCell, TableBody, TablePagination, Button } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles'
 import MenuEdit from 'components/Restaurant/MenuEdit';
 import TableOrder from 'components/Restaurant/TableOrder';
@@ -22,16 +22,19 @@ const useStyles = makeStyles(theme => ({
     margin: 'auto'
   },
   order: {
-    width: '80vw',
+    width: '90vw',
     margin: 'auto'
-  }
+  },
+  progress: {
+    margin: theme.spacing(2),
+  },
 }))
 
 export default function Restaurant(props) {
   const [state, setState] = useState({
     show: TABLES,
     tables: [],
-    tableOrder: []
+    orderItems: []
   })
   const [cookies] = useCookies(['user']);
   const [currentTable, setCurrentTable] = useState(null);
@@ -43,26 +46,6 @@ export default function Restaurant(props) {
       navigate(`/admin`);
     }
   }, []);
-
-  useEffect(() => {
-    axios.get(`/api/getActiveOrder/1`) // replace the 1 with ${tableId}
-      .then((response) => {
-        setState((currentState) => {
-          return ({
-            ...currentState,
-            tableOrder: response.data
-          })
-        })
-      })
-      .catch((error) => {
-        setState((currentState) => {
-          return ({
-            ...currentState,
-            tableOrder: []
-          })
-        })
-      })
-  }, [currentTable]);
 
   useEffect(() => {
     axios.get(`/api/getTables/${props.restoId}`)
@@ -81,12 +64,25 @@ export default function Restaurant(props) {
           });
         });
       });
-  }, [props.restoId]);
+  }, []);
 
   useEffect(() => {
-    axios.get(`/api/getOrderItems`)
-
-  }, [currentTable])
+    setState((currentState) => {
+      return ({
+        ...currentState,
+        orderItems: []
+      });
+    });
+    axios.get(`/api/getActiveOrderItems/${currentTable}`)
+      .then((response) => {
+        setState((currentState) => {
+          return ({
+            ...currentState,
+            orderItems: response.data
+          });
+        });
+      });
+  }, [currentTable]);
 
   const renderTablePage = function() {
     return (
@@ -120,23 +116,7 @@ export default function Restaurant(props) {
             </Table>
           </Paper>
           <br/>
-          <Paper>
-            {currentTable && <h3>Order for Table #{currentTable}</h3>}
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Item</TableCell>
-                  <TableCell>Quantity</TableCell>
-                  <TableCell>Time In</TableCell>
-                  <TableCell>Status</TableCell>
-                  <TableCell></TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                <TableOrder name='test' quantity={3} timeIn={'test o\'clock'} status={'Waiting'} />
-              </TableBody>
-            </Table>
-          </Paper>
+          {currentTable && <TableOrder currentTable={currentTable} items={state.orderItems}/>}
       </Fragment>
     )
   };
@@ -147,7 +127,7 @@ export default function Restaurant(props) {
       <br/>
       <br/>
       <br/>
-      <div class="text-center">
+      <div className="text-center">
         <Button onClick={() => setState(current => ({...current, show: TABLES}))}>Tables</Button> | <Button onClick={() => setState(current => ({...current, show: EDIT}))}>Edit Menu</Button>
       </div>
       <div class="text-center">
