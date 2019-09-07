@@ -7,6 +7,7 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import TableHead from "@material-ui/core/TableHead";
 import Button from "@material-ui/core/Button";
+import $ from "jquery"
 
 const StyledTableCell = withStyles(theme => ({
   head: {
@@ -46,18 +47,15 @@ function decrementer(name, order, row) {
     row["quantity"] = i.value;
   }
 }
-[2,3]
 export default function Cart(props) {
-  const [rows, setRows] = useState(props.rows)
   const deleteItem = function(index) {
-    console.log(props.rows[index].name)
-    let result = props.rows.filter(row => row.name !== props.rows[index].name);
-    const emptyItem = rows.filter(row => row ==="empty");
-    setRows(emptyItem)
-    console.log(rows)
+    delete props.order[props.rows[index].name]
+    let result = props.rows.filter(row => row.name !== props.rows[index].name)
+    props.setRows(result);
+    props.setOrderLength(props.orderLength - 1)
   }
   const clear = function() {
-    setRows([])
+    props.setRows([])
     for (let item in props.order) delete props.order[item];
     props.setOrderLength(0)
   }
@@ -67,8 +65,8 @@ export default function Cart(props) {
   const classes = useStyles2();
   const page = 0;
   const rowsPerPage = 10;
-  const emptyRows =
-    rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+  // const emptyRows =
+  //   rowsPerPage - Math.min(rowsPerPage, props.rows.length - page * rowsPerPage);
   return (
     <div>
       <button onClick={() => goBack()}>0==8</button>
@@ -86,12 +84,12 @@ export default function Cart(props) {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                {props.rows
+                  // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map(row => (
                     <TableRow key={row.name}>
                       <TableCell>
-                        <Button onClick={() => deleteItem(rows.indexOf(row))}>x</Button>
+                        <Button onClick={() => deleteItem(props.rows.indexOf(row))}>x</Button>
                       </TableCell>
                       <TableCell component="th" scope="row">
                         {row.name}
@@ -122,18 +120,17 @@ export default function Cart(props) {
                     </TableRow>
                   ))}
 
-                {emptyRows > 0 && (
+                {/* {emptyRows > 0 && (
                   <TableRow style={{ height: 48 * emptyRows }}>
                     <TableCell colSpan={6} />
                   </TableRow>
-                )}
+                )} */}
               </TableBody>
             </Table>
           </div>
         </Paper>
-        <Button onClick={() => console.log(rows)}>Place Order</Button>
+        <Button onClick={() => console.log(props.rows)}>Place Order</Button>
         <Button onClick={() => clear()}>Clear Cart</Button>
-        <Button onClick={() => console.log("hi")}> hi </Button>
       </div>
     </div>
   );

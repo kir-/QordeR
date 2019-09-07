@@ -20,10 +20,10 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 const orderList = {};
-let rows = [];
 
 export default function Menu() {
   const [state, setState] = useState("");
+  const [rows, setRows] = useState([])
   const [cart, setCart] = React.useState(false);
   const [orderLength, setOrderLength] = React.useState(0);
   const classes = useStyles();
@@ -33,10 +33,11 @@ export default function Menu() {
   const makeRows = function() {
     const items = Object.keys(orderList);
     const quantity = Object.values(orderList);
-    rows = []
+    let tempRows = []
     for (let i = 0; i < items.length; i++) {
-      rows.push(createData(items[i], quantity[i]));
+      tempRows.push(createData(items[i], quantity[i]));
     }
+    setRows([...tempRows])
     setCart(true)
   }
 
@@ -107,7 +108,7 @@ export default function Menu() {
   } else {
     // if cart state is true, it will render cart page
     return (
-        <Cart setOrderLength={setOrderLength} setCart={()=> setCart()} order={orderList} rows={rows} />
+        <Cart setRows ={setRows} setOrderLength={setOrderLength} orderLength={orderLength} setCart={()=> setCart()} order={orderList} rows={rows} />
     );
   }
 }

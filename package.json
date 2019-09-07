@@ -13,6 +13,7 @@
     "cookie-session": "^1.3.3",
     "express": "^4.17.1",
     "hookrouter": "^1.2.3",
+    "jquery": "^3.4.1",
     "material-table": "^1.50.0",
     "qrcode": "^1.4.1",
     "react": "^16.9.0",
