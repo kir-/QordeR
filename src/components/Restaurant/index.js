@@ -2,9 +2,10 @@ import React, { useState, useEffect, Fragment } from 'react';
 import TopBar from "components/TopBar";
 import { navigate } from 'hookrouter';
 import { useCookies } from 'react-cookie';
-import { Button } from "@material-ui/core";
+import { CircularProgress, Paper, Table, TableHead, TableRow, TableCell, TableBody, TablePagination, Button } from "@material-ui/core";
+import { makeStyles } from '@material-ui/core/styles'
 import MenuEdit from 'components/Restaurant/MenuEdit';
-import Table from 'components/Restaurant/Table';
+import TableOrder from 'components/Restaurant/TableOrder';
 
 const axios = require('axios');
 
@@ -15,15 +16,110 @@ const EDIT = "EDIT";
   id: restaurant's id
 */
 
+const useStyles = makeStyles(theme => ({
+  list: {
+    width: '40vw',
+    margin: 'auto'
+  },
+  order: {
+    width: '90vw',
+    margin: 'auto'
+  },
+  progress: {
+    margin: theme.spacing(2),
+  },
+}))
+
 export default function Restaurant(props) {
-  const [state, setState] = useState(TABLES)
+  const [state, setState] = useState({
+    show: TABLES,
+    tables: [],
+    orderItems: []
+  })
   const [cookies] = useCookies(['user']);
+  const [currentTable, setCurrentTable] = useState(null);
+
+  const classes = useStyles();
 
   useEffect(() => {
-    if (!cookies.user || cookies.user !== props.id) {
+    if (!cookies.user || cookies.user !== props.restoId) {
       navigate(`/admin`);
     }
-  }, [])
+  }, []);
+
+  useEffect(() => {
+    axios.get(`/api/getTables/${props.restoId}`)
+      .then((response) => {
+        setState((currentState) => {
+          return ({
+            ...currentState,
+            tables: response.data
+          });
+        });
+      })
+      .catch((error) => {
+        setState((currentState) => {
+          return ({
+            ...currentState
+          });
+        });
+      });
+  }, []);
+
+  useEffect(() => {
+    setState((currentState) => {
+      return ({
+        ...currentState,
+        orderItems: []
+      });
+    });
+    axios.get(`/api/getActiveOrderItems/${currentTable}`)
+      .then((response) => {
+        setState((currentState) => {
+          return ({
+            ...currentState,
+            orderItems: response.data
+          });
+        });
+      });
+  }, [currentTable]);
+
+  const renderTablePage = function() {
+    return (
+      <Fragment>
+        <Paper className={classes.list}>
+            <Table size='small'>
+              <TableHead>
+                <TableRow>
+                  <TableCell>
+                    Table #
+                  </TableCell>
+                  <TableCell>
+                    Status
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {state.tables.map((table) => {
+                  return (
+                    <TableRow selected={currentTable === table.id} onClick={() => currentTable === table.id ? setCurrentTable(null) : setCurrentTable(table.id)}>
+                      <TableCell>
+                        {table.id}
+                      </TableCell>
+                      <TableCell>
+                        <span class="badge badge-pill badge-danger">Waiting</span>
+                      </TableCell>
+                    </TableRow>
+                  )
+                })}
+              </TableBody>
+            </Table>
+          </Paper>
+          <br/>
+          {currentTable && <TableOrder currentTable={currentTable} items={state.orderItems}/>}
+      </Fragment>
+    )
+  };
 
   return (
     <Fragment>
@@ -31,24 +127,13 @@ export default function Restaurant(props) {
       <br/>
       <br/>
       <br/>
-      <div class="text-center">
-        <Button onClick={() => setState(TABLES)}>Tables</Button> | <Button onClick={() => setState(EDIT)}>Edit Menu</Button>
+      <div className="text-center">
+        <Button onClick={() => setState(current => ({...current, show: TABLES}))}>Tables</Button> | <Button onClick={() => setState(current => ({...current, show: EDIT}))}>Edit Menu</Button>
       </div>
       <div class="text-center">
-        {state === TABLES && <Table restaurantId={props.id}/>}
-        {state === EDIT && <MenuEdit restaurantId={props.id}/>}
+        {state.show === TABLES && renderTablePage()}
+        {state.show === EDIT && <MenuEdit restaurantId={props.restoId}/>}
       </div>
     </Fragment>
   )
 }
-// <form onSubmit={event => event.preventDefault()}>
-//   Menu Item:
-//   <br></br>
-//   <input
-//     type="text"
-//     name="Menu"
-//     onChange={event => setOrder(event.target.value)}
-//   ></input>
-//   <br/>
-//   <button onClick={()=> sendOrder()}>Order Now!</button>
-// </form>
