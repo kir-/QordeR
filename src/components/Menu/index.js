@@ -3,11 +3,10 @@ import { makeStyles } from "@material-ui/core/styles";
 import { List, ListSubheader, ListItem, ListItemIcon, ListItemText, Collapse, Button, ButtonGroup } from "@material-ui/core"
 import { ExpandLess, ExpandMore } from "@material-ui/icons"
 import InboxIcon from "@material-ui/icons/MoveToInbox";
-import { menu } from "fakeDb/menu"
-
 import Item from "components/Menu/Item";
 import Cart from "components/Menu/Cart";
 
+import { menu } from "fakeDb/menu"
 const useStyles = makeStyles(theme => ({
   root: {
     width: "100%",
@@ -19,27 +18,25 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 const orderList = {};
-let rows = [];
-
 export default function Menu() {
   const [state, setState] = useState("");
+  const [rows, setRows] = useState([])
   const [cart, setCart] = React.useState(false);
   const [orderLength, setOrderLength] = React.useState(0);
   const classes = useStyles();
-
   function createData(name, quantity, price) {
     return { name, quantity, price };
   }
   const makeRows = function() {
     const items = Object.keys(orderList);
     const quantity = Object.values(orderList);
-    rows = []
+    let tempRows = []
     for (let i = 0; i < items.length; i++) {
-      rows.push(createData(items[i], quantity[i]));
+      tempRows.push(createData(items[i], quantity[i]));
     }
+    setRows([...tempRows])
     setCart(true)
   }
-
   // renders out a list of menu categories and items
   // data structure is located in fakeDb/menu.js
   // expects menu to be something like:
@@ -61,11 +58,9 @@ export default function Menu() {
           <ListItemIcon>
             <InboxIcon />
           </ListItemIcon>
-
           <ListItemText primary={entry.category} />
           {state === entry.category ? <ExpandMore /> : <ExpandLess />}
         </ListItem>
-
         <Collapse in={state === entry.category} timeout="auto" unmountOnExit>
           {entry.items.map(item => {
             return (
@@ -82,7 +77,6 @@ export default function Menu() {
       </Fragment>
     )
   })
-
   if (!cart) {
     // if Cart state is false it will render menu list
     return (
@@ -107,7 +101,7 @@ export default function Menu() {
   } else {
     // if cart state is true, it will render cart page
     return (
-      <Cart setOrderLength={setOrderLength} setCart={()=> setCart()} order={orderList} rows={rows} />
+        <Cart setRows={setRows} setOrderLength={setOrderLength} orderLength={orderLength} setCart={()=> setCart()} order={orderList} rows={rows} />
     );
   }
 }
