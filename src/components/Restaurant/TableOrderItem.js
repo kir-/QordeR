@@ -17,11 +17,10 @@ export default function TableOrderItem(props) {
     if (status !== COOKING) {
       axios.post(`/api/upgradeStatus/${orderDetailId}`)
         .then((response) => {
-          console.log(response);
           setStatus(nextStatus);
         })
         .catch((error) => {
-          console.error(error);
+          setStatus(current => current);
         });
     } else {
       setStatus(nextStatus);
