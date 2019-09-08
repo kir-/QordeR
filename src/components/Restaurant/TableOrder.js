@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Paper, Button, Table, TableHead, TableBody, TableRow, TableCell } from '@material-ui/core';
+import TableOrderItem from 'components/Restaurant/TableOrderItem';
 
 // this component must receive from a parent a function to persist data to the database
 
@@ -10,53 +11,10 @@ import { Paper, Button, Table, TableHead, TableBody, TableRow, TableCell } from 
 // if none of the times are null, we are waiting to send it
 // if the item is sent, mark status as complete and remove the button
 
-const PENDING = "Pending";
-const ACCEPT = "Accept";
-const COOKING = "Cooking";
-const COOKED = "Cooked";
-const READY = "Ready to send";
-const SEND = "Send";
-const SENT = "Sent";
-
 export default function TableOrder(props) {
-  const [status, setStatus] = useState(props.status)
-
-  const renderStatusBadge = function() {
-    let description;
-    if (status === SENT) {
-      description = 'light'
-    } else if (status === READY) {
-      description = 'success';
-    } else if (status === COOKING) {
-      description = 'warning';
-    } else {
-      description = 'danger'
-    }
-    return (
-      <span class={`badge badge-${description}`}>{status}</span>
-    )
-  };
-
-  const renderButton = function() {
-    let buttonText;
-    let newStatus;
-    if (status === PENDING) {
-      buttonText = ACCEPT;
-      newStatus = COOKING;
-    } else if (status === COOKING) {
-      buttonText = COOKED;
-      newStatus = READY;
-    } else if (status === READY) {
-      buttonText = SEND;
-      newStatus = SENT;
-    }
-    return (
-      <Button onClick={() => setStatus(newStatus)} class='btn btn-outline-primary btn-sm'>{buttonText}</Button>
-    )
-  }
 
   return (
-    <Paper>
+    <Paper className={props.classes.order}>
       <h4>Order for Table {props.currentTable}</h4>
       <Table>
         <TableHead>
@@ -69,18 +27,11 @@ export default function TableOrder(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {console.log(props.items)}
-          {Array.isArray(props.items) && props.items.map((item) => {
+          {Array.isArray(props.items) && props.items.length > 0 ? props.items.map((item) => {
             return (
-              <TableRow>
-                <TableCell>{item.item_name}</TableCell>
-                <TableCell>{item.quantity}</TableCell>
-                <TableCell>{item.time_ordered}</TableCell>
-                <TableCell>{renderStatusBadge()}</TableCell>
-                <TableCell>{status !== SENT && renderButton()}</TableCell>
-              </TableRow>
+              <TableOrderItem item={item}/>
             )
-          })}
+          }) : <TableRow><TableCell/><TableCell/><TableCell>Table Empty</TableCell><TableCell/><TableCell/></TableRow>}
         </TableBody>
       </Table>
     </Paper>
