@@ -53,9 +53,9 @@ export default function Admin() {
         if (response.data !== "error") {
           setCookie('user', response.data);
           console.log(cookies.user);
-          navigate(response.data);
+          // navigate(response.data);
         } else {
-          navigate(`/admin/`);
+          navigate(`/admin`);
         }
       })
   }
