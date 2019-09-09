@@ -49,10 +49,11 @@ export default function Admin() {
     login(email, password)
       .then((response) => {
         setLoginError("Incorrect username or password!")
+        console.log(response.data);
         if (response.data !== "error") {
           setCookie('user', response.data);
           console.log(cookies.user);
-          navigate(`/admin/${response.data}`);
+          navigate(response.data);
         } else {
           navigate(`/admin/`);
         }
