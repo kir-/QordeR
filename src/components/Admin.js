@@ -25,7 +25,7 @@ export default function Admin() {
   const [passwordError, setPasswordError] = useState();
   const [loginError, setLoginError] = useState();
 
-  const [cookies] = useCookies(['user']);
+  const [cookies, setCookie] = useCookies(['user']);
 
   useEffect(() => {
     if (cookies.user) {
@@ -49,7 +49,13 @@ export default function Admin() {
     login(email, password)
       .then((response) => {
         setLoginError("Incorrect username or password!")
-        navigate(response.data);
+        if (response.data) {
+          setCookie('user', response.data);
+          console.log(cookies.user);
+          navigate(`/admin/${response.data}`);
+        } else {
+          navigate(`/admin/`);
+        }
       })
   }
 
