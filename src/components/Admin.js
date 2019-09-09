@@ -31,7 +31,7 @@ export default function Admin() {
     if (cookies.user) {
       navigate(`/admin/${cookies.user}`);
     }
-  }, [])
+  }, [cookies.user])
 
   function validate() {
     if (!email) {
@@ -52,8 +52,6 @@ export default function Admin() {
         console.log(response.data.restaurantId);
         if (response.data !== "error") {
           setCookie('user', response.data.restaurantId);
-          console.log(cookies.user);
-          // navigate(`/admin/${cookies.user}`);
         } else {
           navigate(`/admin`);
         }
