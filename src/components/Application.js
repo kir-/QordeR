@@ -12,9 +12,10 @@ export default function Application() {
       <br/>
       <br/>
       <br/>
-      {/* <img
+      <img
+      style={{width: "200px"}}
       src="https://cdn.vox-cdn.com/thumbor/CHCiw8xdogCBnB12TSRvpo4VZMY=/0x0:1000x667/1200x900/filters:focal(393x413:553x573)/cdn.vox-cdn.com/uploads/chorus_image/image/60248239/2014_nakazawafish.0.12.jpg"
-      /> */}
+      />
       <Menu/>
     </div>
   )
