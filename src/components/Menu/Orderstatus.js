@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -8,6 +8,8 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import TopBar from '../TopBar';
 import Button from "@material-ui/core/Button";
+import StripeCheckout from "react-stripe-checkout"
+import Application from "components/Application"
 
 
 const useStyles = makeStyles(theme => ({
@@ -32,10 +34,14 @@ const rows = [
   createData('Cupcake', 305, 3.7, 67, 4.3),
   createData('Gingerbread', 356, 16.0, 49, 3.9),
 ];
+function handleToken (token, addresses){
+    console.log({ token, addresses })
+}
 
 export default function SimpleTable() {
   const classes = useStyles();
-
+  const [checkout, setCheckout] = useState(false);
+  if (!checkout) {
   return (
       <div>
           <TopBar title="Restaurant Name"/>
@@ -63,8 +69,52 @@ export default function SimpleTable() {
         </TableBody>
       </Table>
     </Paper>
-      <Button>Pay</Button>
-      <Button>Order more food</Button>
+      <Button onClick={() => setCheckout(true)}>Checkout</Button>
+      <Button href="/">Order more food</Button>
     </div>
   );
+    }
+    else {
+        return (
+            <div>
+                <TopBar title="Restaurant Name"/>
+                <br/>
+                <br/>
+                <br/>
+                <h1>Your Order</h1>
+                <Button onClick={() => setCheckout(false)}>x</Button>
+          <Paper className={classes.root}> 
+            <Table className={classes.table}>
+              <TableHead>
+                <TableRow>
+                  <TableCell></TableCell>
+                  <TableCell>Item</TableCell>
+                  <TableCell>Quantity</TableCell>
+                  <TableCell>Price</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {rows.map(row => (
+                  <TableRow key={row.name}>
+                      <TableCell>
+                        <input type="checkbox" name="vehicle1" value="Bike"/>
+                      </TableCell>
+                    <TableCell component="th" scope="row">
+                      {row.name}
+                    </TableCell>
+                    <TableCell>{row.carbs}</TableCell>
+                    <TableCell>$50</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </Paper>
+            <StripeCheckout 
+        stripeKey="pk_test_TK9R3NMHts3AY8Bdd34iQ5AN002xytpmOT"
+        token={handleToken}
+        billingAddress
+        />
+          </div>
+        );
+          }  
 }
