@@ -4,7 +4,7 @@ import { navigate } from 'hookrouter';
 import { useCookies } from 'react-cookie';
 import { Button } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles'
-import MenuEdit from 'components/Restaurant/MenuEdit';
+import MenuEdit from 'components/Restaurant/MenuEdit/index';
 import TableOrder from 'components/Restaurant/TableOrder';
 import Tables from 'components/Restaurant/Tables';
 
@@ -29,7 +29,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function Restaurant(props) {
   const [state, setState] = useState({
-    show: TABLES,
+    show: EDIT,
     tables: [],
     orderItems: []
   })
