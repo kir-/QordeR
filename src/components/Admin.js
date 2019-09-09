@@ -25,13 +25,13 @@ export default function Admin() {
   const [passwordError, setPasswordError] = useState();
   const [loginError, setLoginError] = useState();
 
-  const [cookies] = useCookies(['user']);
+  const [cookies, setCookie] = useCookies(['user']);
 
   useEffect(() => {
     if (cookies.user) {
       navigate(`/admin/${cookies.user}`);
     }
-  }, [])
+  }, [cookies.user])
 
   function validate() {
     if (!email) {
@@ -49,7 +49,12 @@ export default function Admin() {
     login(email, password)
       .then((response) => {
         setLoginError("Incorrect username or password!")
-        navigate(response.data);
+        console.log(response.data.restaurantId);
+        if (response.data !== "error") {
+          setCookie('user', response.data.restaurantId);
+        } else {
+          navigate(`/admin`);
+        }
       })
   }
 

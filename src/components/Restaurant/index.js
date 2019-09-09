@@ -71,7 +71,7 @@ export default function Restaurant(props) {
         orderItems: []
       });
     });
-    axios.get(`/api/getActiveOrderItems/${currentTable}`)
+    axios.get(`/api/getActiveTableItems/${currentTable}`)
       .then((response) => {
         setState((currentState) => {
           return ({
