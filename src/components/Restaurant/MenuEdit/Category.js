@@ -1,16 +1,31 @@
-import React, { Fragment, useState } from 'react';
-import { Collapse, Button, ListItem, ListItemText, ListItemIcon } from '@material-ui/core';
+import React, { Fragment  } from 'react';
+import { Collapse, Button, ListItem, ListItemText } from '@material-ui/core';
 import { RemoveCircleOutline, Edit, ExpandMore, ExpandLess, Add } from '@material-ui/icons';
 
 export default function Category(props) {
-  const editCategory = function(event) {
+  const editCategory = function(event, categoryName) {
     event.stopPropagation();
     props.setEdit((current) => {
-      return {
-        ...current,
-        active: true
-      }
+      return ({
+        active: true,
+        entry: {
+          categoryName
+        }
       });
+    });
+  }
+
+  const editItem = function(event, categoryName, itemName) {
+    event.stopPropagation();
+    props.setEdit((current) => {
+      return ({
+        active: true,
+        entry: {
+          categoryName,
+          itemName
+        }
+      });
+    });
   }
 
   const removeCategory = function(event) {
@@ -21,7 +36,7 @@ export default function Category(props) {
   return (
     <Fragment>
       <ListItem button onClick={()=> props.showCategory === props.entry.category ? props.setShowCategory(null) : props.setShowCategory(props.entry.category)}>
-        <Button onClick={(event) => editCategory(event)}>
+        <Button onClick={(event) => editCategory(event, props.entry.category)}>
           <Edit/>
         </Button>
         <ListItemText>{props.entry.category}</ListItemText>
@@ -31,14 +46,14 @@ export default function Category(props) {
           {props.showCategory === props.entry.category ? <ExpandMore /> : <ExpandLess />}
       </ListItem>
       <Collapse in={props.showCategory === props.entry.category} timeout="auto" unmountOnExit>
-        {props.entry.items.map((item) => {
+        {props.entry.items.map((item, index) => {
           return (
-            <ListItem button onClick={() => console.log(item.name)}>
+            <ListItem key={index} button onClick={(event) => editItem(event, props.entry.category, item.name)}>
               <ListItemText>{item.name}</ListItemText>
             </ListItem>
           );
         })}
-        <ListItem class="d-flex justify-content-center">
+        <ListItem className="d-flex justify-content-center">
           <Button onClick={() => console.log('add button clicked')}>
             Item <Add/>
           </Button>
