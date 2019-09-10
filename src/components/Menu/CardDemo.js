@@ -17,8 +17,6 @@ export default function CardDemo() {
         stripeKey="pk_test_TK9R3NMHts3AY8Bdd34iQ5AN002xytpmOT"
         token={handleToken}
         billingAddress
-        // amount={product.price}
-        // name={product.name}
         />
       </div>
     </div>
