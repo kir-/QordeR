@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { TextField, Button } from '@material-ui/core';
 import { Close } from '@material-ui/icons';
@@ -16,8 +16,12 @@ const useStyles = makeStyles(theme => ({
 
 export default function New(props) {
   const classes = useStyles();
-  const [categoryName, setCategoryName] = useState(props.categoryName || '');
-  const [itemName, setItemName] = useState('');
+  const [categoryName, setCategoryName] = useState(props.categoryName);
+  const [item, setItem] = useState({
+    name: '',
+    price_cents: '',
+    image: '123'
+  });
 
   useEffect(() => {
     setCategoryName(props.categoryName)
@@ -29,7 +33,7 @@ export default function New(props) {
         let existingCategoryIndex = current.findIndex((entry) => {
           return entry.category === props.categoryName;
         });
-        current[existingCategoryIndex].items.push({ name: itemName, price_cents: null, image: '123' })
+        current[existingCategoryIndex].items.push(item)
       } else {
         current.push({ category: categoryName, items: [] })
       }
@@ -40,37 +44,71 @@ export default function New(props) {
     props.setAdd({ active: false })
   }
 
+  const updateItem = function(event, type) {
+    event.persist();
+    if (type === 'name') {
+      setItem((current) => {
+        return ({
+          ...current,
+          name: event.target.value
+        });
+      });
+    } else {
+      setItem((current) => {
+        return ({
+          ...current,
+          price_cents: event.target.value
+        });
+      });
+    }
+  }
+
   return (
     <div>
       <form onSubmit={(event) => event.preventDefault()} className="d-flex flex-column align-items-center my-2">
         <Close style={{marginRight: '-22rem'}} onClick={() => props.setAdd({active: false})}/>
         <h5>{props.type === 'category' ? "Add Category" : "Add Item"}</h5>
-        <TextField
-          label="Category Name"
-          className={classes.textField}
-          type="text"
-          name="name"
-          margin="normal"
-          value={categoryName}
-          onChange={(event) => setCategoryName(event.target.value)}
-        />
         {
-          props.type === "item" &&
+          props.type === "category" &&
           <TextField
-            label="Item Name"
+            autoFocus
+            label="Category Name"
             className={classes.textField}
             type="text"
             name="name"
             margin="normal"
-            value={itemName}
-            onChange={(event) => setItemName(event.target.value)}
+            value={categoryName}
+            onChange={(event) => setCategoryName(event.target.value)}
           />
         }
-          <Button type="submit" onClick={() => editMenuState()} variant="outlined" color="primary" className={classes.button}>
+        {
+          props.type === "item" &&
+          <Fragment>
+            <TextField
+              autoFocus
+              label="Item Name"
+              className={classes.textField}
+              type="text"
+              name="name"
+              margin="normal"
+              value={item.name}
+              onChange={(event) => updateItem(event, 'name')}
+            />
+            <TextField
+              label="Item Price"
+              className={classes.textField}
+              type="number"
+              name="name"
+              margin="normal"
+              value={item.price_cents}
+              onChange={(event) => updateItem(event, 'price_cents')}
+            />
+          </Fragment>
+        }
+          <Button onClick={() => editMenuState()} variant="outlined" color="primary" className={classes.button}>
             Save
           </Button>
       </form>
     </div>
   )
-
 }

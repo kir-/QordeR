@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { Button, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Close } from '@material-ui/icons';
@@ -18,10 +18,12 @@ export default function Form(props) {
   const classes = useStyles();
   const [categoryName, setCategoryName] = useState(props.categoryName);
   const [itemName, setItemName] = useState(props.itemName);
+  const [itemPrice, setItemPrice] = useState(props.itemPrice);
 
   useEffect(() => {
-    setCategoryName(props.categoryName)
-    setItemName(props.itemName)
+    setCategoryName(props.categoryName);
+    setItemName(props.itemName);
+    setItemPrice(props.itemPrice / 100.0);
   }, [props])
 
   const editMenuState = function() {
@@ -35,6 +37,7 @@ export default function Form(props) {
           return item.name === props.itemName;
         });
         current[existingCategoryIndex].items[existingItemIndex].name = itemName;
+        current[existingCategoryIndex].items[existingItemIndex].price_cents = itemPrice * 100;
       }
       return [
         ...current
@@ -63,37 +66,48 @@ export default function Form(props) {
     <div>
       <form onSubmit={(event) => event.preventDefault()} className="d-flex flex-column align-items-center my-2">
         <Close style={{marginRight: '-22rem'}} onClick={() => props.setEdit({active: false})}/>
-        <TextField
-          label="Category Name"
-          className={classes.textField}
-          type="text"
-          name="name"
-          margin="normal"
-          value={categoryName || ''}
-          onChange={(event) => setCategoryName(event.target.value)}
-        />
         {
-          props.itemName &&
+          !props.itemName &&
           <TextField
-            label="Item Name"
+            label="Category Name"
             className={classes.textField}
             type="text"
-            name="name"
             margin="normal"
-            value={itemName || ''}
-            onChange={(event) => setItemName(event.target.value)}
+            value={categoryName || ''}
+            onChange={(event) => setCategoryName(event.target.value)}
           />
         }
+        {
+          props.itemName &&
+          <Fragment>
+            <TextField
+              label="Item Name"
+              className={classes.textField}
+              type="text"
+              margin="normal"
+              value={itemName || ''}
+              onChange={(event) => setItemName(event.target.value)}
+            />
+            <TextField
+              label="Item Price"
+              className={classes.textField}
+              type="number"
+              margin="normal"
+              value={itemPrice || ''}
+              onChange={(event) => setItemPrice(event.target.value)}
+            />
+          </Fragment>
+        }
         <div>
-          <Button type="submit" onClick={() => editMenuState()} variant="outlined" color="primary" className={classes.button}>
-            Save
-          </Button>
           {
             props.itemName &&
-            <Button type="submit" onClick={() => deleteItem()} variant="outlined" color="secondary" className={classes.button}>
+            <Button onClick={() => deleteItem()} variant="outlined" color="secondary" className={classes.button}>
               Delete Item
             </Button>
           }
+          <Button onClick={() => editMenuState()} variant="outlined" color="primary" className={classes.button}>
+            Save
+          </Button>
         </div>
       </form>
     </div>
