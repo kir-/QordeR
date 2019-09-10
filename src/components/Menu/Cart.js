@@ -106,7 +106,7 @@ export default function Cart(props) {
                             value="-"
                             id="btnDecrement"
                             onClick={() => decrementer(row.name, props.order, row)}
-                            style={{paddingTop:"10px", paddingLeft:"0px"}}
+                            style={{paddingTop:"10px", paddingLeft:"10px"}}
                           />
                           <input
                             type="text"
@@ -120,7 +120,7 @@ export default function Cart(props) {
                             value="+"
                             id="btnIncrement"
                             onClick={() => incrementer(row.name, props.order, row)}
-                            style={{paddingTop:"10px", paddingLeft:"10px"}}
+                            style={{paddingTop:"10px", paddingLeft:"0px"}}
                           />
                         </p>
                       </TableCell>
