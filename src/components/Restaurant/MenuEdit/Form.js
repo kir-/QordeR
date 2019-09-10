@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Close } from '@material-ui/icons';
@@ -16,29 +16,49 @@ const useStyles = makeStyles(theme => ({
 
 export default function Form(props) {
   const classes = useStyles();
-  const initialCategory = props.categoryName;
-  const initialItem = props.itemName;
-  const [categoryName, setCategoryName] = useState(initialCategory);
-  const [itemName, setItemName] = useState(initialItem);
+  const [categoryName, setCategoryName] = useState(props.categoryName);
+  const [itemName, setItemName] = useState(props.itemName);
 
-  const saveMenuState = function() {
+  useEffect(() => {
+    setCategoryName(props.categoryName)
+    setItemName(props.itemName)
+  }, [props])
+
+  const editMenuState = function() {
     props.setMenuState((current) => {
       let existingCategoryIndex = current.findIndex((entry) => {
-        return entry.category === initialCategory
+        return entry.category === props.categoryName
       });
       current[existingCategoryIndex].category = categoryName;
-      if (initialItem) {
+      if (props.itemName) {
         let existingItemIndex = current[existingCategoryIndex].items.findIndex((item) => {
-          return item.name === initialItem;
+          return item.name === props.itemName;
         });
         current[existingCategoryIndex].items[existingItemIndex].name = itemName;
       }
       return [
-        ...current,
+        ...current
       ];
     });
     props.setEdit({ active: false });
   };
+
+  const deleteItem = function() {
+    props.setMenuState((current) => {
+      let existingCategoryIndex = current.findIndex((entry) => {
+        return entry.category === props.categoryName
+      });
+      let existingItemIndex = current[existingCategoryIndex].items.findIndex((item) => {
+        return item.name === props.itemName;
+      });
+      current[existingCategoryIndex].items.splice(existingItemIndex, 1);
+      return [
+        ...current
+      ];
+    });
+    props.setEdit({ active: false });
+  };
+
   return (
     <div>
       <form onSubmit={(event) => event.preventDefault()} className="d-flex flex-column align-items-center my-2">
@@ -49,24 +69,32 @@ export default function Form(props) {
           type="text"
           name="name"
           margin="normal"
-          value={categoryName}
+          value={categoryName || ''}
           onChange={(event) => setCategoryName(event.target.value)}
         />
-      {
-        props.itemName &&
-        <TextField
-          label="Item Name"
-          className={classes.textField}
-          type="text"
-          name="name"
-          margin="normal"
-          value={itemName}
-          onChange={(event) => setItemName(event.target.value)}
-        />
-      }
-        <Button type="submit" onClick={() => saveMenuState()} variant="outlined" color="primary" className={classes.button}>
-          Save
-        </Button>
+        {
+          props.itemName &&
+          <TextField
+            label="Item Name"
+            className={classes.textField}
+            type="text"
+            name="name"
+            margin="normal"
+            value={itemName || ''}
+            onChange={(event) => setItemName(event.target.value)}
+          />
+        }
+        <div>
+          <Button type="submit" onClick={() => editMenuState()} variant="outlined" color="primary" className={classes.button}>
+            Save
+          </Button>
+          {
+            props.itemName &&
+            <Button type="submit" onClick={() => deleteItem()} variant="outlined" color="secondary" className={classes.button}>
+              Delete Item
+            </Button>
+          }
+        </div>
       </form>
     </div>
   );

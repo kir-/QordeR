@@ -1,4 +1,4 @@
-import React, { Fragment  } from 'react';
+import React, { Fragment } from 'react';
 import { Collapse, Button, ListItem, ListItemText } from '@material-ui/core';
 import { RemoveCircleOutline, Edit, ExpandMore, ExpandLess, Add } from '@material-ui/icons';
 
@@ -30,7 +30,24 @@ export default function Category(props) {
 
   const removeCategory = function(event) {
     event.stopPropagation();
-    console.log('remove category button clicked');
+    props.setMenuState((current) => {
+      let existingCategoryIndex = current.findIndex((entry) => {
+        return entry.category === props.entry.category
+      });
+      current.splice(existingCategoryIndex, 1);
+      return [
+        ...current
+      ];
+    });
+  }
+
+  const addItem = function(event, categoryName) {
+    event.stopPropagation();
+    props.setAdd({
+      active: true,
+      type: 'item',
+      categoryName
+    });
   }
 
   return (
@@ -46,7 +63,7 @@ export default function Category(props) {
           {props.showCategory === props.entry.category ? <ExpandMore /> : <ExpandLess />}
       </ListItem>
       <Collapse in={props.showCategory === props.entry.category} timeout="auto" unmountOnExit>
-        {props.entry.items.map((item, index) => {
+        {props.entry.items && props.entry.items.map((item, index) => {
           return (
             <ListItem key={index} button onClick={(event) => editItem(event, props.entry.category, item.name)}>
               <ListItemText>{item.name}</ListItemText>
@@ -54,7 +71,7 @@ export default function Category(props) {
           );
         })}
         <ListItem className="d-flex justify-content-center">
-          <Button onClick={() => console.log('add button clicked')}>
+          <Button onClick={(event) => addItem(event, props.entry.category)}>
             Item <Add/>
           </Button>
         </ListItem>
