@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Paper, Button, Table, TableHead, TableBody, TableRow, TableCell } from '@material-ui/core';
+import React from 'react';
+import { Paper, Table, TableHead, TableBody, TableRow, TableCell } from '@material-ui/core';
 import TableOrderItem from 'components/Restaurant/TableOrderItem';
 
 // this component must receive from a parent a function to persist data to the database

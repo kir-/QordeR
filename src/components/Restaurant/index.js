@@ -100,7 +100,7 @@ export default function Restaurant(props) {
       <div className="text-center">
         <Button onClick={() => setState(current => ({...current, show: TABLES}))}>Tables</Button> | <Button onClick={() => setState(current => ({...current, show: EDIT}))}>Edit Menu</Button>
       </div>
-      <div class="text-center">
+      <div className="text-center">
         {state.show === TABLES && renderTablePage()}
         {state.show === EDIT && <MenuEdit restaurantId={props.restoId}/>}
       </div>
