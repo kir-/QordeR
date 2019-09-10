@@ -90,7 +90,7 @@ export default function Menu() {
           src="https://cdn.vox-cdn.com/thumbor/CHCiw8xdogCBnB12TSRvpo4VZMY=/0x0:1000x667/1200x900/filters:focal(393x413:553x573)/cdn.vox-cdn.com/uploads/chorus_image/image/60248239/2014_nakazawafish.0.12.jpg"
           className={classes.root}
           />
-          <h2 style={{color:"white", top: "13%", left: "5%", position: "absolute"}}>
+          <h2 style={{color:"beige", top: "13%", left: "5%", position: "absolute"}}>
             Sushi, always the pleasure
           </h2>
         </div>

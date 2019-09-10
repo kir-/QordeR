@@ -10,6 +10,7 @@ import TopBar from '../TopBar';
 import Button from "@material-ui/core/Button";
 import StripeCheckout from "react-stripe-checkout"
 import ButtonGroup from "@material-ui/core"
+import "./loader.css"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -39,8 +40,8 @@ function handleToken (token, addresses){
 
 export default function SimpleTable() {
   const classes = useStyles();
-  const [checkout, setCheckout] = useState(false);
-  if (!checkout) {
+  const [checkout, setCheckout] = useState(0);
+  if (checkout === 0) {
   return (
       <div>
           <TopBar title="Miku"/>
@@ -76,11 +77,11 @@ export default function SimpleTable() {
       backgroundColor:"#3f51b5",
       position:"fixed",
       bottom:"0",
-    }} onClick= {()=> setCheckout(true)}>Checkout</Button>
+    }} onClick= {()=> setCheckout(1)}>Checkout</Button>
     </div>
   );
     }
-    else {
+    if (checkout === 1) {
         return (
             <div>
                 <TopBar title="Miku"/>
@@ -115,26 +116,44 @@ export default function SimpleTable() {
             </Table>
           </Paper>
           <div align="center">
-            <Button onClick={() => setCheckout(false)}>
+            <Button onClick={() => setCheckout(0)}>
               Cancel
             </Button>
           </div>
-
-          {/* <div align="center">
-            <StripeCheckout 
-        stripeKey="pk_test_TK9R3NMHts3AY8Bdd34iQ5AN002xytpmOT"
-        token={handleToken}
-        style={{marginTop:"15px"}}
-        />
-        </div> */}
-
           <Button style={{color:"white",
           width:"100%",
           backgroundColor:"#3f51b5",
           position:"fixed",
           bottom:"0"
-          }}>Pay for Selected</Button>
+          }} onClick={() => setCheckout(2)}>Pay for Selected</Button>
           </div>
         );
-          }  
+    }
+    if (checkout === 2) {
+      return (
+        <div>
+          <TopBar title="Miku"/>
+          <br/>
+          <br/>
+          <br/>  
+          <p align="center">Waiting for other customers to complete their form</p>
+          <div align="center">
+            <div className = "loader"></div>
+          </div>
+          <div>
+              <StripeCheckout 
+                stripeKey="pk_test_TK9R3NMHts3AY8Bdd34iQ5AN002xytpmOT"
+                token={handleToken}
+                style={{
+                color:"white",
+                width:"100%",
+                backgroundColor:"#3f51b5",
+                position:"fixed",
+                bottom:"0",
+                }}
+              />
+          </div>
+        </div>
+      )
+    }  
 }
