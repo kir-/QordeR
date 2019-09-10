@@ -49,6 +49,7 @@ export default function Menu() {
   //   ]
   // }
   // can update the items to just old an array of ids later
+
   const menuList = menu.map((entry, index) => {
     return (
       <Fragment>
@@ -56,7 +57,9 @@ export default function Menu() {
           state === entry.category ? setState(null) : setState(entry.category)
         }>
           <ListItemIcon>
-            <InboxIcon />
+            <img src="https://mikurestaurant.com/wp-content/uploads/2018/05/MD-Sashimi-Platter-4-1-495x400.jpg"
+            style={{width:"33px", borderRadius:"30px"}}
+            />
           </ListItemIcon>
           <ListItemText primary={entry.category} />
           {state === entry.category ? <ExpandMore /> : <ExpandLess />}
@@ -80,22 +83,39 @@ export default function Menu() {
   if (!cart) {
     // if Cart state is false it will render menu list
     return (
-      <div class="d-flex justify-content-center align-items-baseline">
-        <List
-          component="nav"
-          aria-labelledby="nested-list-subheader"
-          subheader={
-            <ListSubheader component="div" id="nested-list-subheader">
-              Menu
-            </ListSubheader>
-          }
+      <div>
+        <div>
+          <img
+          style={{width: "100%", height: "100%", zindex:-1}}
+          src="https://cdn.vox-cdn.com/thumbor/CHCiw8xdogCBnB12TSRvpo4VZMY=/0x0:1000x667/1200x900/filters:focal(393x413:553x573)/cdn.vox-cdn.com/uploads/chorus_image/image/60248239/2014_nakazawafish.0.12.jpg"
           className={classes.root}
-        >
-        {menuList}
-            <ButtonGroup fullWidth aria-label="full width outlined button group">
-             <Button onClick={() => makeRows()}>Checkout {orderLength}</Button>
-           </ButtonGroup>
-        </List>
+          />
+          <h2 style={{color:"white", top: "13%", left: "5%", position: "absolute"}}>
+            Sushi, always the pleasure
+          </h2>
+        </div>
+        <div class="d-flex justify-content-center align-items-baseline">
+          <hr/>
+          <List
+            subheader={
+              <ListSubheader component="div" id="nested-list-subheader">
+                Menu
+              </ListSubheader>
+            }
+            className={classes.root}
+          >
+          {menuList}
+          <ButtonGroup style={{
+          backgroundColor:"#3f51b5",
+          position:"fixed",
+          bottom:"0"
+        }}fullWidth aria-label="full width outlined button group">
+         <Button style={{color:"white"}} onClick={() => makeRows()}>Checkout {orderLength}</Button>
+        </ButtonGroup>
+          
+          </List>
+        </div>
+        <br/>
       </div>
     );
   } else {

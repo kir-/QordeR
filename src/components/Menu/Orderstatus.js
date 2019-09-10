@@ -9,8 +9,7 @@ import Paper from '@material-ui/core/Paper';
 import TopBar from '../TopBar';
 import Button from "@material-ui/core/Button";
 import StripeCheckout from "react-stripe-checkout"
-import Application from "components/Application"
-
+import ButtonGroup from "@material-ui/core"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -19,7 +18,7 @@ const useStyles = makeStyles(theme => ({
     overflowX: 'auto',
   },
   table: {
-    minWidth: 650,
+    minWidth: 250,
   },
 }));
 
@@ -44,76 +43,97 @@ export default function SimpleTable() {
   if (!checkout) {
   return (
       <div>
-          <TopBar title="Restaurant Name"/>
+          <TopBar title="Miku"/>
           <br/>
           <br/>
           <br/>
-          <h1>Your Order</h1>
+          <h2 align="center">Your Order</h2>
     <Paper className={classes.root}> 
       <Table className={classes.table}>
         <TableHead>
           <TableRow>
-            <TableCell>Item</TableCell>
-            <TableCell>Quantity</TableCell>
+            <TableCell style={{padding:"0px",width:"50%", paddingLeft:"5%", height:"10%"}}>Item</TableCell>
+            <TableCell style={{padding:"0px",width:"50%", paddingLeft:"15%", height:"10%"}}>Quantity</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {rows.map(row => (
             <TableRow key={row.name}>
-              <TableCell component="th" scope="row">
+              <TableCell style={{padding:"0px",width:"50%", paddingLeft:"5%", height:"10%"}} component="th" scope="row">
                 {row.name}
               </TableCell>
-              <TableCell>{row.carbs}</TableCell>
+              <TableCell style={{padding:"0px",width:"50%", paddingLeft:"15%", height:"10%"}} >{row.carbs}</TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
     </Paper>
-      <Button onClick={() => setCheckout(true)}>Checkout</Button>
+    <div align="center">
       <Button href="/">Order more food</Button>
+    </div>
+    <Button style={{color:"white",
+      width:"100%",
+      backgroundColor:"#3f51b5",
+      position:"fixed",
+      bottom:"0",
+    }} onClick= {()=> setCheckout(true)}>Checkout</Button>
     </div>
   );
     }
     else {
         return (
             <div>
-                <TopBar title="Restaurant Name"/>
+                <TopBar title="Miku"/>
                 <br/>
                 <br/>
                 <br/>
-                <h1>Your Order</h1>
-                <Button onClick={() => setCheckout(false)}>x</Button>
+                <h2 align="center">Your Order</h2>
           <Paper className={classes.root}> 
             <Table className={classes.table}>
-              <TableHead>
-                <TableRow>
-                  <TableCell></TableCell>
-                  <TableCell>Item</TableCell>
-                  <TableCell>Quantity</TableCell>
-                  <TableCell>Price</TableCell>
+              <TableHead style={{padding:"0px",width:"10%", paddingLeft:"10%", height:"10%"}}>
+                <TableRow style={{padding:"0px",width:"10%", paddingLeft:"10%", height:"10%"}}>
+                  <TableCell style={{padding:"0px",width:"10%", paddingLeft:"10%", height:"10%"}}></TableCell>
+                  <TableCell style={{padding:"0px",width:"60%", paddingLeft:"5%", height:"10%"}}>Item</TableCell>
+                  <TableCell style={{padding:"0px",width:"15%", height:"10%"}}>Quantity</TableCell>
+                  <TableCell style={{padding:"0px",width:"15%", paddingLeft:"5%", height:"10%"}}>Price</TableCell>
                 </TableRow>
               </TableHead>
-              <TableBody>
+              <TableBody style={{padding:"0px",width:"10%", paddingLeft:"10%", height:"10%"}}>
                 {rows.map(row => (
                   <TableRow key={row.name}>
-                      <TableCell>
+                      <TableCell style={{padding:"0px",width:"10%", paddingLeft:"5%", height:"10%", paddingTop:"1%"}}>
                         <input type="checkbox" name="vehicle1" value="Bike"/>
                       </TableCell>
-                    <TableCell component="th" scope="row">
+                    <TableCell style={{padding:"0px",width:"60%", paddingLeft:"5%", height:"10%"}} component="th" scope="row">
                       {row.name}
                     </TableCell>
-                    <TableCell>{row.carbs}</TableCell>
-                    <TableCell>$50</TableCell>
+                    <TableCell style={{padding:"0px",width:"15%", paddingLeft:"5%", height:"10%"}}>{row.carbs}</TableCell>
+                    <TableCell style={{padding:"0px",width:"15%", paddingLeft:"5%", height:"10%"}}>$50</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
             </Table>
           </Paper>
+          <div align="center">
+            <Button onClick={() => setCheckout(false)}>
+              Cancel
+            </Button>
+          </div>
+
+          {/* <div align="center">
             <StripeCheckout 
         stripeKey="pk_test_TK9R3NMHts3AY8Bdd34iQ5AN002xytpmOT"
         token={handleToken}
-        billingAddress
+        style={{marginTop:"15px"}}
         />
+        </div> */}
+
+          <Button style={{color:"white",
+          width:"100%",
+          backgroundColor:"#3f51b5",
+          position:"fixed",
+          bottom:"0"
+          }}>Pay for Selected</Button>
           </div>
         );
           }  
