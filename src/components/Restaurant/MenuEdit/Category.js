@@ -15,19 +15,6 @@ export default function Category(props) {
     });
   }
 
-  const editItem = function(event, categoryName, itemName) {
-    event.stopPropagation();
-    props.setEdit((current) => {
-      return ({
-        active: true,
-        entry: {
-          categoryName,
-          itemName
-        }
-      });
-    });
-  }
-
   const removeCategory = function(event) {
     event.stopPropagation();
     props.setMenuState((current) => {
@@ -50,6 +37,20 @@ export default function Category(props) {
     });
   }
 
+  const editItem = function(event, categoryName, itemName, itemPrice) {
+    event.stopPropagation();
+    props.setEdit((current) => {
+      return ({
+        active: true,
+        entry: {
+          categoryName,
+          itemName,
+          itemPrice
+        }
+      });
+    });
+  }
+
   return (
     <Fragment>
       <ListItem button onClick={()=> props.showCategory === props.entry.category ? props.setShowCategory(null) : props.setShowCategory(props.entry.category)}>
@@ -65,8 +66,9 @@ export default function Category(props) {
       <Collapse in={props.showCategory === props.entry.category} timeout="auto" unmountOnExit>
         {props.entry.items && props.entry.items.map((item, index) => {
           return (
-            <ListItem key={index} button onClick={(event) => editItem(event, props.entry.category, item.name)}>
-              <ListItemText>{item.name}</ListItemText>
+            <ListItem key={index} button onClick={(event) => editItem(event, props.entry.category, item.name, item.price_cents)}>
+              <ListItemText className='offset-1 col-8'>{item.name}</ListItemText>
+              <ListItemText className='col-1'>${(item.price_cents/100.0).toFixed(2)}</ListItemText>
             </ListItem>
           );
         })}
