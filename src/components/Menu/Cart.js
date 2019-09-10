@@ -103,10 +103,10 @@ export default function Cart(props) {
                         <p>
                           <input
                             type="button"
-                            value="+"
-                            id="btnIncrement"
-                            onClick={() => incrementer(row.name, props.order, row)}
-                            style={{paddingTop:"10px", paddingLeft:"10px"}}
+                            value="-"
+                            id="btnDecrement"
+                            onClick={() => decrementer(row.name, props.order, row)}
+                            style={{paddingTop:"10px", paddingLeft:"0px"}}
                           />
                           <input
                             type="text"
@@ -117,10 +117,10 @@ export default function Cart(props) {
                           />
                           <input
                             type="button"
-                            value="-"
-                            id="btnDecrement"
-                            onClick={() => decrementer(row.name, props.order, row)}
-                            style={{paddingTop:"10px", paddingLeft:"0px"}}
+                            value="+"
+                            id="btnIncrement"
+                            onClick={() => incrementer(row.name, props.order, row)}
+                            style={{paddingTop:"10px", paddingLeft:"10px"}}
                           />
                         </p>
                       </TableCell>
@@ -136,10 +136,15 @@ export default function Cart(props) {
             </Table>
           </div>
         </Paper>
-        <Button onClick={() => console.log(props.rows)}>Place Order</Button>
         <Button onClick={() => clear()}>Clear Cart</Button>
       </div>
       </div>
+        <Button style={{color:"white",
+          width:"100%",
+          backgroundColor:"#3f51b5",
+          position:"fixed",
+          bottom:"0"
+          }} onClick={() => console.log(props.rows)}>Place Order</Button>
     </div>
   );
 }
