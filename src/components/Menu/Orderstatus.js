@@ -9,7 +9,6 @@ import Paper from '@material-ui/core/Paper';
 import TopBar from '../TopBar';
 import Button from "@material-ui/core/Button";
 import StripeCheckout from "react-stripe-checkout"
-import ButtonGroup from "@material-ui/core"
 import "./loader.css"
 
 const useStyles = makeStyles(theme => ({
@@ -159,19 +158,17 @@ export default function SimpleTable() {
           <div align="center">
             <div className = "loader"></div>
           </div>
-          <div>
+          <span>
               <StripeCheckout 
                 stripeKey="pk_test_TK9R3NMHts3AY8Bdd34iQ5AN002xytpmOT"
                 token={handleToken}
                 style={{
-                color:"white",
                 width:"100%",
-                backgroundColor:"#3f51b5",
                 position:"fixed",
                 bottom:"0",
                 }}
               />
-          </div>
+          </span>
         </div>
       )
     } 
@@ -187,7 +184,10 @@ export default function SimpleTable() {
             Thank You For Your Payment
           </h5>
           <p>
-            Receipt has been sent to your to : {email}
+            Receipt has been sent to :
+          </p>
+          <p>
+            {email}
           </p>
           <img
           src="https://cdn1.iconfinder.com/data/icons/learning-call-edit-location-s11/512/like-512.png"
