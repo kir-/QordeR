@@ -39,15 +39,25 @@ export default function Item(props) {
     }
   }
   return (
-    <div>
-      <Button onClick={() => setDrawer(true)}> {props.name} </Button>
+    <div style={{witdh:"100%", clear:"both"}}>
+      <button style={{width:"325px"}} onClick={() => setDrawer(true)}>
+          <img
+          src={props.image}
+          style={{marginLeft:"25px", borderRadius:"20px", float:"left", width:"25px"}}
+          />
+          <p style={{float:"left", marginLeft:"5px"}}>{props.name}</p>
+          <p style={{float:"right"}}>${(props.price / 100).toFixed(2)}</p>
+      </button>
       <Drawer anchor="bottom" open={drawer} onClose={() => setDrawer(false)}>
-      <List>
-        <div class="d-flex justify-content-center align-items-baseline">
-          <h3>{props.name}</h3>
+      <List style={{paddingBottom:"0px"}}>
+        <div align="center">
+          <h5>{props.name}</h5>
         </div>
+        <hr style={{marginTop:"5px"}}/>
         <div class="d-flex justify-content-center align-items-baseline">
-          <p>Quantity</p>
+          <img
+          src={props.image}
+          style={{width:"55px", borderRadius:"20px", marginTop:"10px"}}/>
         </div>
         <div class="d-flex justify-content-center align-items-baseline">
           <Button onClick={() => setCount(currentCount => count > 0 ? currentCount - 1 : currentCount)}>-</Button>
@@ -57,11 +67,9 @@ export default function Item(props) {
         <div class="d-flex justify-content-center align-items-baseline">
           <p className={classes.error}>{error}</p>
         </div>
-        <div class="d-flex flex-col justify-content-center align-items-baseline">
-          <IconButton onClick={() => addItem(count)} color="primary" className={classes.button} aria-label="add to shopping cart">
-            <AddShoppingCartIcon/>
-          </IconButton>
-        </div>
+        <Button onClick={() => addItem(count)} style={{width:"100%", backgroundColor:"#3F51B5", height:"35px"}}>
+            <AddShoppingCartIcon style={{color:"white"}}/>
+        </Button>
       </List>
       </Drawer>
     </div>

@@ -34,13 +34,32 @@ const rows = [
   createData('Cupcake', 305, 3.7, 67, 4.3),
   createData('Gingerbread', 356, 16.0, 49, 3.9),
 ];
-function handleToken (token, addresses){
-    console.log({ token, addresses })
-}
 
+
+let checkedItem = []
+let email;
+function checkItem (name) {
+  const checkBox = document.getElementById(name);
+  if (checkBox.checked === true){
+    checkedItem.push(name)
+  }
+  if (!checkBox.checked){
+    checkedItem = checkedItem.filter(item => item !== name)
+  }
+}
 export default function SimpleTable() {
   const classes = useStyles();
   const [checkout, setCheckout] = useState(0);
+  function handleToken (token, addresses){
+    email = (token.email)
+    setCheckout(3)
+  }
+
+  function splitBill () {
+    console.log(checkedItem)
+    setCheckout(2)
+  }
+  
   if (checkout === 0) {
   return (
       <div>
@@ -103,7 +122,7 @@ export default function SimpleTable() {
                 {rows.map(row => (
                   <TableRow key={row.name}>
                       <TableCell style={{padding:"0px",width:"10%", paddingLeft:"5%", height:"10%", paddingTop:"1%"}}>
-                        <input type="checkbox" name="vehicle1" value="Bike"/>
+                        <input type="checkbox" name={row.name} id={row.name} onClick={()=> checkItem(row.name)}/>
                       </TableCell>
                     <TableCell style={{padding:"0px",width:"60%", paddingLeft:"5%", height:"10%"}} component="th" scope="row">
                       {row.name}
@@ -125,7 +144,7 @@ export default function SimpleTable() {
           backgroundColor:"#3f51b5",
           position:"fixed",
           bottom:"0"
-          }} onClick={() => setCheckout(2)}>Pay for Selected</Button>
+          }} onClick={() => splitBill()}>Pay for Selected</Button>
           </div>
         );
     }
@@ -155,5 +174,27 @@ export default function SimpleTable() {
           </div>
         </div>
       )
-    }  
+    } 
+    if (checkout === 3) {
+      return (
+      <div>
+        <TopBar title= "Miku"/>
+        <br/>
+        <br/>
+        <br/>
+        <div style={{marginTop:"10%"}} align="center">
+          <h5>
+            Thank You For Your Payment
+          </h5>
+          <p>
+            Receipt has been sent to your to : {email}
+          </p>
+          <img
+          src="https://cdn1.iconfinder.com/data/icons/learning-call-edit-location-s11/512/like-512.png"
+          style={{width:"100px"}}
+          />
+        </div>
+      </div>
+      )
+    }
 }
