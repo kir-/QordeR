@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
 
 let checkedItem = []
 let email;
-function checkItem (name) {
+function checkItem (name, id) {
   const checkBox = document.getElementById(name);
   if (checkBox.checked === true){
     checkedItem.push(id)
@@ -75,6 +75,7 @@ export default function SimpleTable(props) {
       .then((response)=>{
         console.log(response.data)
       })
+    }
 
   function handleToken (token, addresses){
     email = (token.email)
