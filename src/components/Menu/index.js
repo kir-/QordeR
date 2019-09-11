@@ -12,7 +12,7 @@ import { navigate } from 'hookrouter';
 const useStyles = makeStyles(theme => ({
   root: {
     width: "100%",
-    maxWidth: 360,
+    maxWidth: 550,
     backgroundColor: theme.palette.background.paper
   },
   nested: {
@@ -110,13 +110,14 @@ export default function Menu() {
       <div>
         <div>
           <img
-          style={{width: "100%", height: "100%", zindex:-1}}
+          style={{width: "100%", height: "100%", zindex:-1, position:"relative"}}
           src="https://cdn.vox-cdn.com/thumbor/CHCiw8xdogCBnB12TSRvpo4VZMY=/0x0:1000x667/1200x900/filters:focal(393x413:553x573)/cdn.vox-cdn.com/uploads/chorus_image/image/60248239/2014_nakazawafish.0.12.jpg"
           className={classes.root}
           />
-          <h2 style={{color:"beige", top: "13%", left: "5%", position: "absolute"}}>
+          <h3 style={{color:"beige", top: "75px", left: "5%", position: "absolute"}}>
             Sushi, always the pleasure
-          </h2>
+          </h3>
+
         </div>
         <div class="d-flex justify-content-center align-items-baseline">
           <hr/>

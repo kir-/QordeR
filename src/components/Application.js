@@ -11,7 +11,9 @@ export default function Application(props) {
     <div>
       <TopBar title="Miku" tableId={props.tableId}/>
       <br/>
-      <Menu/>
+      <div>
+        <Menu/>
+      </div>
     </div>
   )
 }

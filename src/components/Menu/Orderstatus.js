@@ -9,7 +9,6 @@ import Paper from '@material-ui/core/Paper';
 import TopBar from '../TopBar';
 import Button from "@material-ui/core/Button";
 import StripeCheckout from "react-stripe-checkout"
-import ButtonGroup from "@material-ui/core"
 import "./loader.css"
 const axios = require('axios');
 import { navigate } from 'hookrouter';
@@ -27,12 +26,9 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function handleToken (token, addresses){
-    console.log({ token, addresses })
-}
-
 let checkedItem = []
-function checkItem (name, id) {
+let email;
+function checkItem (name) {
   const checkBox = document.getElementById(name);
   if (checkBox.checked === true){
     checkedItem.push(id)
@@ -40,7 +36,6 @@ function checkItem (name, id) {
   if (!checkBox.checked){
     checkedItem = checkedItem.filter(item => item !== id)
   }
-  console.log(checkedItem)
 }
 export default function SimpleTable(props) {
   const classes = useStyles();
@@ -80,6 +75,11 @@ export default function SimpleTable(props) {
       .then((response)=>{
         console.log(response.data)
       })
+
+  function handleToken (token, addresses){
+    email = (token.email)
+    setCheckout(3)
+
   }
 
   function splitBill () {
@@ -201,24 +201,45 @@ export default function SimpleTable(props) {
           <div align="center">
             <div className = "loader"></div>
           </div>
-          <div>
+          <span>
               <StripeCheckout 
                 stripeKey="pk_test_TK9R3NMHts3AY8Bdd34iQ5AN002xytpmOT"
                 token={handleToken}
+                amount={6969}
                 style={{
-                color:"white",
                 width:"100%",
-                backgroundColor:"#3f51b5",
                 position:"fixed",
                 bottom:"0",
                 }}
               />
-          </div>
+          </span>
         </div>
       )
     }  
     else if (checkout === 3){
-      return (<h1>success!</h1>)
+      return (
+      <div>
+        <TopBar title= "Miku"/>
+        <br/>
+        <br/>
+        <br/>
+        <div style={{marginTop:"10%"}} align="center">
+          <h5>
+            Thank You For Your Payment
+          </h5>
+          <p>
+            Receipt has been sent to :
+          </p>
+          <p>
+            {email}
+          </p>
+          <img
+          src="https://cdn1.iconfinder.com/data/icons/learning-call-edit-location-s11/512/like-512.png"
+          style={{width:"100px"}}
+          />
+        </div>
+      </div>
+      )
     }
   } else {
     return (<p></p>)
