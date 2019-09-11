@@ -27,11 +27,9 @@ function createData(name, calories, fat, carbs, protein) {
 }
 
 const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
+  createData('Miso', 159, 6.0, 24, 4.0),
+  createData('Gyoza', 237, 9.0, 37, 4.3),
+  createData('California Roll', 262, 16.0, 24, 6.0)
 ];
 
 
@@ -162,6 +160,7 @@ export default function SimpleTable() {
               <StripeCheckout 
                 stripeKey="pk_test_TK9R3NMHts3AY8Bdd34iQ5AN002xytpmOT"
                 token={handleToken}
+                amount={6969}
                 style={{
                 width:"100%",
                 position:"fixed",
