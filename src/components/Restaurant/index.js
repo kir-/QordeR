@@ -48,10 +48,13 @@ export default function Restaurant(props) {
   useEffect(() => {
     axios.get(`/api/getTables/${props.restoId}`)
       .then((response) => {
+        const sortedTables = response.data.sort((current, next) => {
+          return current.id - next.id;
+        });
         setState((currentState) => {
           return ({
             ...currentState,
-            tables: response.data
+            tables: sortedTables
           });
         });
       })
@@ -86,6 +89,7 @@ export default function Restaurant(props) {
     return (
       <div class="d-flex flex-column justify-content-between">
         <Tables currentTable={currentTable} setCurrentTable={setCurrentTable} tables={state.tables} classes={classes}/>
+        <br/>
         {currentTable && <TableOrder currentTable={currentTable} items={state.orderItems} classes={classes}/>}
       </div>
     )
