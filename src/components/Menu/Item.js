@@ -40,7 +40,7 @@ export default function Item(props) {
   }
   return (
     <div style={{witdh:"100%", clear:"both"}}>
-      <button style={{width:"100%"}} onClick={() => setDrawer(true)}>
+      <button style={{width:"100%", backgroundColor:"white", borderStyle:"none"}} onClick={() => setDrawer(true)}>
           <img
           src={props.image}
           style={{marginLeft:"25px", borderRadius:"20px", float:"left", width:"25px"}}
