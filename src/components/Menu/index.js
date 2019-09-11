@@ -1,12 +1,14 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { List, ListSubheader, ListItem, ListItemIcon, ListItemText, Collapse, Button, ButtonGroup } from "@material-ui/core"
 import { ExpandLess, ExpandMore } from "@material-ui/icons"
 import InboxIcon from "@material-ui/icons/MoveToInbox";
 import Item from "components/Menu/Item";
 import Cart from "components/Menu/Cart";
+const axios = require('axios');
+import { navigate } from 'hookrouter';
 
-import { menu } from "fakeDb/menu"
+// import { menu } from "fakeDb/menu"
 const useStyles = makeStyles(theme => ({
   root: {
     width: "100%",
@@ -17,8 +19,10 @@ const useStyles = makeStyles(theme => ({
     paddingLeft: theme.spacing(4)
   }
 }));
+
 const orderList = {};
 export default function Menu() {
+  const [menu, setMenu] = useState("")
   const [state, setState] = useState("");
   const [rows, setRows] = useState([])
   const [cart, setCart] = React.useState(false);
@@ -27,16 +31,35 @@ export default function Menu() {
   function createData(name, quantity, price) {
     return { name, quantity, price };
   }
+  const sendOrder = function(order){
+    let table_id = window.location.href.slice(22)
+    axios.post(`/${table_id}/order`, {order: order})
+      .then(()=>{
+        navigate(`/order/${table_id}`);
+      })
+  }
   const makeRows = function() {
     const items = Object.keys(orderList);
-    const quantity = Object.values(orderList);
-    let tempRows = []
+    let quantity = [];
+    let price = [];
+    
+    for (let item in orderList) {
+      quantity.push(orderList[item].quantity)
+      price.push(orderList[item].price)
+    }
+    console.log("quantity",quantity)
+    let tempRows = [];
     for (let i = 0; i < items.length; i++) {
-      tempRows.push(createData(items[i], quantity[i]));
+      tempRows.push(createData(items[i], quantity[i], price[i]));
     }
     setRows([...tempRows])
     setCart(true)
   }
+  useEffect(()=>{
+    axios.get('/api/1/menu').then((response)=>{
+      setMenu(response.data)
+    })
+  },[])
   // renders out a list of menu categories and items
   // data structure is located in fakeDb/menu.js
   // expects menu to be something like:
@@ -49,19 +72,7 @@ export default function Menu() {
   //   ]
   // }
   // can update the items to just old an array of ids later
-  const menuPic = [
-    "https://pizzazzerie.com/wp-content/uploads/2018/11/thanksgiving-appetizer-500x500.jpg",
-    "https://5.imimg.com/data5/DR/WG/MY-2125757/tempura-batter-mix-500x500.jpg",
-    "https://www.wandercooks.com/wp-content/uploads/2019/04/udon-noodle-soup-recipe-ft-500x500.jpg",
-    "https://www.dinneratthezoo.com/wp-content/uploads/2018/06/slow-cooker-teriyaki-chicken-1-500x500.jpg",
-    "http://sushibar-kh.com/wp-content/uploads/2016/01/SHIN-KOU-MAKI.jpg",
-    "https://howdaily.com/wp-content/uploads/2018/07/temaki-roll-500x500.jpg",
-    "https://images.japancentre.com/recipes/pics/217/main/photo_Nigiri-Sushi.jpg?1469572964",
-    "https://yuhoki.co.uk/image/cache/data/food/sushi_sashimi/45-salmon-sashimi-93-500x500.jpg",
-    "http://www.wabisabi.co.mz/wp-content/uploads/2017/10/C2new-800x800-72dpi-500x500.jpg"
-  ]
-
-
+  if(menu){
   const menuList = menu.map((entry, index) => {
     return (
       <Fragment>
@@ -69,7 +80,7 @@ export default function Menu() {
           state === entry.category ? setState(null) : setState(entry.category)
         }>
           <ListItemIcon>
-            <img src={menuPic[index]}
+            <img src={entry.image}
             style={{width:"33px", borderRadius:"30px"}}
             />
           </ListItemIcon>
@@ -135,7 +146,10 @@ export default function Menu() {
   } else {
     // if cart state is true, it will render cart page
     return (
-        <Cart setRows={setRows} setOrderLength={setOrderLength} orderLength={orderLength} setCart={()=> setCart()} order={orderList} rows={rows} />
+        <Cart setRows={setRows} setOrderLength={setOrderLength} orderLength={orderLength} setCart={()=> setCart()} order={orderList} rows={rows} sendOrder={(order)=>sendOrder(order)}/>
     );
+  }
+  } else {
+    return (<p></p>)
   }
 }
