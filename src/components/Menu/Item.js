@@ -40,13 +40,13 @@ export default function Item(props) {
   }
   return (
     <div style={{witdh:"100%", clear:"both"}}>
-      <button style={{width:"325px"}} onClick={() => setDrawer(true)}>
+      <button style={{width:"100%"}} onClick={() => setDrawer(true)}>
           <img
           src={props.image}
           style={{marginLeft:"25px", borderRadius:"20px", float:"left", width:"25px"}}
           />
           <p style={{float:"left", marginLeft:"5px"}}>{props.name}</p>
-          <p style={{float:"right"}}>${(props.price / 100).toFixed(2)}</p>
+          <p style={{marginRight:"5%", float:"right"}}>${(props.price / 100).toFixed(2)}</p>
       </button>
       <Drawer anchor="bottom" open={drawer} onClose={() => setDrawer(false)}>
       <List style={{paddingBottom:"0px"}}>

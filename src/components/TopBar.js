@@ -41,13 +41,13 @@ export default function TopBar(props) {
     <div className={classes.root}>
       <AppBar position={classes.static}>
         <Toolbar>
-          <div style={{border:"4px", width:"10%"}}>
+          <div style={{border:"4px", width:"10px"}}>
             <img 
             src="https://files.slack.com/files-pri/T2G8TE2E5-FN85GEW6T/kakaotalk_photo_2019-09-09-16-25-53.png"
             style={{display:"block", border:"4px", width:"40px"}}
             />
           </div>
-          <Typography style={{marginLeft:"2%"}} variant="h6" className={classes.title}>
+          <Typography style={{marginLeft:"25px"}} variant="h6" className={classes.title}>
             {props.title}
           </Typography>
           {props.admin && <Button onClick={logout} color="inherit">Logout</Button>}

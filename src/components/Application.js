@@ -10,7 +10,9 @@ export default function Application() {
     <div>
       <TopBar title="Miku"/>
       <br/>
-      <Menu/>
+      <div>
+        <Menu/>
+      </div>
     </div>
   )
 }
