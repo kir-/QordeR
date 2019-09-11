@@ -75,7 +75,8 @@ export default function SimpleTable(props) {
       .then((response)=>{
         console.log(response.data)
       })
-
+  }
+  
   function handleToken (token, addresses){
     email = (token.email)
     setCheckout(3)
