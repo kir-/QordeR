@@ -162,6 +162,7 @@ export default function SimpleTable() {
               <StripeCheckout 
                 stripeKey="pk_test_TK9R3NMHts3AY8Bdd34iQ5AN002xytpmOT"
                 token={handleToken}
+                amount={6969}
                 style={{
                 width:"100%",
                 position:"fixed",
