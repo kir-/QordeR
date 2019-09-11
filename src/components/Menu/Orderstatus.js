@@ -34,11 +34,10 @@ const rows = [
   createData('Cupcake', 305, 3.7, 67, 4.3),
   createData('Gingerbread', 356, 16.0, 49, 3.9),
 ];
-function handleToken (token, addresses){
-    console.log({ token, addresses })
-}
+
 
 let checkedItem = []
+let email;
 function checkItem (name) {
   const checkBox = document.getElementById(name);
   if (checkBox.checked === true){
@@ -47,11 +46,14 @@ function checkItem (name) {
   if (!checkBox.checked){
     checkedItem = checkedItem.filter(item => item !== name)
   }
-  console.log(checkedItem)
 }
 export default function SimpleTable() {
   const classes = useStyles();
   const [checkout, setCheckout] = useState(0);
+  function handleToken (token, addresses){
+    email = (token.email)
+    setCheckout(3)
+  }
 
   function splitBill () {
     console.log(checkedItem)
@@ -172,5 +174,27 @@ export default function SimpleTable() {
           </div>
         </div>
       )
-    }  
+    } 
+    if (checkout === 3) {
+      return (
+      <div>
+        <TopBar title= "Miku"/>
+        <br/>
+        <br/>
+        <br/>
+        <div style={{marginTop:"10%"}} align="center">
+          <h5>
+            Thank You For Your Payment
+          </h5>
+          <p>
+            Receipt has been sent to your to : {email}
+          </p>
+          <img
+          src="https://cdn1.iconfinder.com/data/icons/learning-call-edit-location-s11/512/like-512.png"
+          style={{width:"100px"}}
+          />
+        </div>
+      </div>
+      )
+    }
 }
