@@ -43,7 +43,7 @@ export default function TopBar(props) {
         <Toolbar>
           <div style={{border:"4px", width:"10px"}}>
             <img 
-            src="https://files.slack.com/files-pri/T2G8TE2E5-FN85GEW6T/kakaotalk_photo_2019-09-09-16-25-53.png"
+            src="https://i.postimg.cc/6psSQQcw/Kakao-Talk-Photo-2019-09-09-16-25-53.png"
             style={{display:"block", border:"4px", width:"40px"}}
             />
           </div>
