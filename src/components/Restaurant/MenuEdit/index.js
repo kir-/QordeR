@@ -62,8 +62,6 @@ export default function MenuEdit(props) {
       setError('ERROR! Please make sure all categories have items! Or remove empty categories.');
     } else {
       setError('');
-    }
-    if (!error) {
       axios.post(`/api/${props.restaurantId}/menu`, { menu: menuState })
         .then((response) => {
           console.log(response);

@@ -29,7 +29,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function Restaurant(props) {
   const [state, setState] = useState({
-    show: EDIT,
+    show: TABLES,
     tables: [],
     orderItems: []
   })
