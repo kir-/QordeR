@@ -7,12 +7,12 @@ import Orderstatus from "components/Menu/Orderstatus";
 import Loader from "components/loading_test";
 
 const routes = {
-  "/": () => <Application />,
   "/:restoId/order/:id": ({ restoId, id }) => <Order restoId={restoId} id={id}/>,
   "/admin/:restoId": ({ restoId }) => <Restaurant restoId={restoId}/>,
   "/admin": () => <Admin />,
-  "/order": () => <Orderstatus />,
-  "/load": () => <Loader/>
+  "/order/:tableId": ({tableId}) => <Orderstatus tableId={tableId}/>,
+  "/load": () => <Loader/>,
+  "/:tableId": ({tableId}) => <Application tableId={tableId}/>
 };
 
 
