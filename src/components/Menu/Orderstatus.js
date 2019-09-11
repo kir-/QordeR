@@ -103,7 +103,7 @@ export default function SimpleTable() {
                 {rows.map(row => (
                   <TableRow key={row.name}>
                       <TableCell style={{padding:"0px",width:"10%", paddingLeft:"5%", height:"10%", paddingTop:"1%"}}>
-                        <input type="checkbox" name="vehicle1" value="Bike"/>
+                        <input type="checkbox" name={row.name} value="Bike"/>
                       </TableCell>
                     <TableCell style={{padding:"0px",width:"60%", paddingLeft:"5%", height:"10%"}} component="th" scope="row">
                       {row.name}
