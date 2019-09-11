@@ -15,6 +15,8 @@ export default function Tables(props) {
     setPage(newPage);
   }
 
+  const emptyRows = rowsPerPage - Math.min(rowsPerPage, props.tables.length - page * rowsPerPage);
+
   return (
     <Paper className={props.classes.list}>
       <Table size='small'>
@@ -29,7 +31,9 @@ export default function Tables(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {props.tables.map((table) => {
+          {props.tables
+            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            .map((table) => {
             return (
               <TableRow key={table.id} selected={props.currentTable === table.id} onClick={() => props.currentTable === table.id ? props.setCurrentTable(null) : props.setCurrentTable(table.id)}>
                 <TableCell>
@@ -49,6 +53,8 @@ export default function Tables(props) {
         count={props.tables.length}
         page={page}
         rowsPerPage={rowsPerPage}
+        onChangePage={handleChangePage}
+        onChangeRowsPerPage={handleChangeRowsPerPage}
       />
     </Paper>
   )
