@@ -70,7 +70,7 @@ export default function Menu() {
         }>
           <ListItemIcon>
             <img src={menuPic[index]}
-            style={{width:"33px", borderRadius:"30px"}}
+            style={{width:"30px", borderRadius:"30px"}}
             />
           </ListItemIcon>
           <ListItemText primary={entry.category} />
