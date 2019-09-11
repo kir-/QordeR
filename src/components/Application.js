@@ -12,7 +12,7 @@ export default function Application(props) {
       <TopBar title="Miku" tableId={props.tableId}/>
       <br/>
       <div>
-        <Menu/>
+        <Menu tableId={props.tableId}/>
       </div>
     </div>
   )

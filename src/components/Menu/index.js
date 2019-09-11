@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const orderList = {};
-export default function Menu() {
+export default function Menu(props) {
   const [menu, setMenu] = useState("")
   const [state, setState] = useState("");
   const [rows, setRows] = useState([])
@@ -32,10 +32,10 @@ export default function Menu() {
     return { name, quantity, price };
   }
   const sendOrder = function(order){
-    let table_id = window.location.href.slice(22)
-    axios.post(`/${table_id}/order`, {order: order})
+    // let table_id = window.location.href.slice(22)
+    axios.post(`/${props.tableId}/order`, {order: order})
       .then(()=>{
-        navigate(`/order/${table_id}`);
+        navigate(`/order/${props.tableId}`);
       })
   }
   const makeRows = function() {
