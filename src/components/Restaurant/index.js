@@ -29,7 +29,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function Restaurant(props) {
   const [state, setState] = useState({
-    show: EDIT,
+    show: TABLES,
     tables: [],
     orderItems: []
   })
@@ -48,10 +48,13 @@ export default function Restaurant(props) {
   useEffect(() => {
     axios.get(`/api/getTables/${props.restoId}`)
       .then((response) => {
+        const sortedTables = response.data.sort((current, next) => {
+          return current.id - next.id;
+        });
         setState((currentState) => {
           return ({
             ...currentState,
-            tables: response.data
+            tables: sortedTables
           });
         });
       })
@@ -86,6 +89,7 @@ export default function Restaurant(props) {
     return (
       <div class="d-flex flex-column justify-content-between">
         <Tables currentTable={currentTable} setCurrentTable={setCurrentTable} tables={state.tables} classes={classes}/>
+        <br/>
         {currentTable && <TableOrder currentTable={currentTable} items={state.orderItems} classes={classes}/>}
       </div>
     )
@@ -100,7 +104,7 @@ export default function Restaurant(props) {
       <div className="text-center">
         <Button onClick={() => setState(current => ({...current, show: TABLES}))}>Tables</Button> | <Button onClick={() => setState(current => ({...current, show: EDIT}))}>Edit Menu</Button>
       </div>
-      <div class="text-center">
+      <div className="text-center">
         {state.show === TABLES && renderTablePage()}
         {state.show === EDIT && <MenuEdit restaurantId={props.restoId}/>}
       </div>
