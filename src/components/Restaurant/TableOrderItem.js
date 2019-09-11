@@ -63,11 +63,20 @@ export default function TableOrderItem(props) {
     )
   }
 
+  const formatDate = function(dateString) {
+    let result = '';
+    const date = new Date(dateString);
+    result += `
+      ${date.getHours() % 12 === 0 ? 12 : date.getHours() % 12}:${(date.getMinutes() < 10 ? '0' : '' ) + date.getMinutes()}:${(date.getSeconds() < 10 ? '0' : '' ) + date.getSeconds()}
+    `;
+    return result;
+  }
+
   return (
     <TableRow>
     <TableCell>{props.item.item_name}</TableCell>
     <TableCell>{props.item.quantity}</TableCell>
-    <TableCell>{props.item.time_ordered}</TableCell>
+    <TableCell>{formatDate(props.item.time_ordered)}</TableCell>
     <TableCell>{renderStatusBadge()}</TableCell>
     <TableCell>{renderButton(props.item)}</TableCell>
     </TableRow>
