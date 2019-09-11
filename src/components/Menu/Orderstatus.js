@@ -13,7 +13,7 @@ import "./loader.css"
 const axios = require('axios');
 import { navigate } from 'hookrouter';
 
-let ws = new WebSocket('ws://q-order-api.herokuapp.com');
+let ws = new WebSocket('wss://q-order-api.herokuapp.com');
 
 const useStyles = makeStyles(theme => ({
   root: {
