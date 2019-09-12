@@ -41,7 +41,7 @@ export default function TotalOrder(props){
       </Table>
     </Paper>
     <br/>
-    <h3 align="center">Total: {'$' + props.total}</h3>
+    <h3 align="center">Total: {'$' + props.total/100}</h3>
       <span>
                 <StripeCheckout 
                   stripeKey="pk_test_TK9R3NMHts3AY8Bdd34iQ5AN002xytpmOT"
