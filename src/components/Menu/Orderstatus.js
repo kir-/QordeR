@@ -44,7 +44,7 @@ export default function SimpleTable(props) {
   const [load, setLoad] = useState('true')
 
   ws.onmessage = function (event) {
-    // console.log('Message from server ', JSON.parse(event.data));
+    console.log('Message from server ', JSON.parse(event.data));
     if (JSON.parse(event.data) && JSON.parse(event.data).table_id){
       let paid = JSON.parse(event.data);
       if(paid.table_id === props.tableId){
@@ -244,8 +244,9 @@ export default function SimpleTable(props) {
         </div>
       </div>
       )
-    } else {
-    return (<p></p>)
-  }
+    } 
+}
+else {
+  return (<p></p>)
 }
 }
