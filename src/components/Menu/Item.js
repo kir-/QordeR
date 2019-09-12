@@ -27,10 +27,18 @@ export default function Item(props) {
 
   const addItem = function(count) {
     if (count > 0) {
+      if (props.order[props.name] > 0) {
+        let initial = Number(props.order[props.name])
+        props.order[props.name] = initial + Number(count)
+        console.log(props.order[props.name])
+        setDrawer(false)
+        setCount(0)
+      } else {
       props.order[props.name] = count
       setDrawer(false)
       setCount(0)
       props.setOrderLength(currentLength => currentLength + 1)
+      }
     } else {
       const clearError = () => setError("");
       setError("Quantity cannot be 0!")
