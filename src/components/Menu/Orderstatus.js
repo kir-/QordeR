@@ -133,7 +133,7 @@ const clear = function(){
   }
 
   function sendPayment(){
-    axios.post(`/${props.tableId}/pay/confirm`, {price: parseInt(total*100)/100})
+    axios.post(`/${props.tableId}/pay/confirm`, {price: parseInt(total*100)})
       .then(()=>{
         axios.get(`/${props.tableId}/pay/done`)
       })
@@ -214,7 +214,7 @@ const clear = function(){
         return (
           <StripePay
           handleToken={handleToken}
-          total={parseInt(total*100)/100}
+          total={parseInt(total*100)}
           receipt={receipt}
           classes={classes}
           />
