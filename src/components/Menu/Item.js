@@ -27,7 +27,7 @@ export default function Item(props) {
 
   const addItem = function(count) {
     if (count > 0) {
-      props.order[props.name] = {quantity:0, price:0}
+      props.order[props.name] = {quantity:0, price:0, id: props.itemId}
       props.order[props.name].quantity = count
       props.order[props.name].price = (props.price / 100).toFixed(2)
       setDrawer(false)
