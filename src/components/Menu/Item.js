@@ -27,7 +27,7 @@ export default function Item(props) {
 
   const addItem = function(count) {
     if (count > 0) {
-      if (props.order[props.name].quantity > 0) {
+      if (props.order[props.name]) {
         let initial = Number(props.order[props.name].quantity)
         props.order[props.name].quantity = initial + Number(count)
         console.log(props.order[props.name])
