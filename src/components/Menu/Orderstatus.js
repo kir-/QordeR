@@ -42,6 +42,10 @@ export default function SimpleTable(props) {
   const [checkout, setCheckout] = useState(0);
   const [order, setOrder] = useState('');
 
+  ws.onopen = function(event) {
+    console.log("connected");
+  }
+
   ws.onmessage = function (event) {
     console.log('Message from server ', JSON.parse(event.data));
     let paid = JSON.parse(event.data);
