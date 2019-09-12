@@ -13,6 +13,6 @@ export default function loader(props){
   //   console.log('Message from server', event.data);
   // };
 
-  let ws = new WebSocket('wss://q-order-websocket.herokuapp.com/');
+  // let ws = new WebSocket('wss://q-order-websocket.herokuapp.com/');
   return (<h1>loading</h1>)
 }
