@@ -39,7 +39,7 @@ export default function TableOrderItem(props) {
       badgeType = 'secondary';
     }
     return (
-      <span class={`badge badge-${badgeType}`}>{status}</span>
+      <span className={`badge badge-${badgeType}`}>{status}</span>
     )
   };
 
@@ -59,7 +59,7 @@ export default function TableOrderItem(props) {
       return;
     }
     return (
-      <Button onClick={() => persistStatus(item.id, nextStatus)} class="btn btn-outline-primary">{buttonText}</Button>
+      <Button onClick={() => persistStatus(item.order_details_id, nextStatus)} className="btn btn-primary">{buttonText}</Button>
     )
   }
 
@@ -74,7 +74,7 @@ export default function TableOrderItem(props) {
 
   return (
     <TableRow>
-    <TableCell>{props.item.item_name}</TableCell>
+    <TableCell>{props.item.name}</TableCell>
     <TableCell>{props.item.quantity}</TableCell>
     <TableCell>{formatDate(props.item.time_ordered)}</TableCell>
     <TableCell>{renderStatusBadge()}</TableCell>

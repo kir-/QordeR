@@ -52,7 +52,7 @@ export default function SimpleTable(props) {
     let checkedItemin = checkedItem;
     if(web){
       checkedItemin = checkedItems;
-    } 
+    }
     console.log("checkeditems makeReciept: ", checkedItemin)
     axios.post('/calculate_payment', {items: checkedItemin})
       .then((response)=>{
@@ -65,7 +65,7 @@ export default function SimpleTable(props) {
     let checkedItemin = checkedItem;
     if(web){
       checkedItemin = checkedItems;
-    } 
+    }
     console.log("checkeditems calculate: ", checkedItemin)
     axios.post('/calculate_total', {items: checkedItemin})
       .then((response)=>{
@@ -76,7 +76,7 @@ export default function SimpleTable(props) {
           setTotal(response.data)
           setMode(STRIPE)
         }
-        
+
       })
     }
 
@@ -111,7 +111,7 @@ export default function SimpleTable(props) {
       }
     }
   };
-  
+
 const clear = function(){
   checkedItem = []
   axios.get(`/${props.tableId}/order`)
@@ -139,22 +139,20 @@ const clear = function(){
       })
   }
 
-  const goBack = function(){
+  const goBack = function() {
     axios.post(`/${props.tableId}/ordermore`)
-      .then((response)=>{
+      .then((response) => {
         navigate(`/${props.tableId}`)
       })
   }
 
-  useEffect(()=>{
-    console.log('useEffect')
+  useEffect(() => {
     axios.get(`/${props.tableId}/order`)
-      .then((response)=>{
-        console.log(response.data)
+      .then((response) => {
         setOrder(response.data)
         setMode(TOTAL)
       })
-  },[])
+  }, [])
 
   function handleToken (token, addresses){
     email = (token.email)
@@ -162,7 +160,7 @@ const clear = function(){
     sendPayment()
   }
 
-  function splitBill () {
+  function splitBill() {
     console.log(checkedItem)
     axios.post(`/${props.tableId}/pay`, {items: checkedItem})
       .then((response)=>{
@@ -187,7 +185,7 @@ const clear = function(){
   }
   if(order){
     if (mode === TOTAL) {
-        return(<TotalOrder 
+        return(<TotalOrder
           checkout={()=>setMode(TOTALSELECT)}
           goBack={()=>goBack()}
           order={order}
@@ -209,7 +207,7 @@ const clear = function(){
         load={load}
         />
       )
-    }  
+    }
     else if (mode === STRIPE) {
         return (
           <StripePay
@@ -219,7 +217,7 @@ const clear = function(){
           classes={classes}
           />
         )
-      }  
+      }
     else if (mode === PAID){
         return (
         <div>
@@ -244,7 +242,7 @@ const clear = function(){
           </div>
         </div>
         )
-      } 
+      }
   }
   else {
     return (<p></p>)
