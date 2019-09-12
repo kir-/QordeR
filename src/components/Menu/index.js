@@ -36,6 +36,7 @@ export default function Menu(props) {
     axios.post(`/${props.tableId}/order`, {order: order})
       .then(()=>{
         navigate(`/order/${props.tableId}`);
+        console.log('reached')
       })
   }
   const makeRows = function() {
