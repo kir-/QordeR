@@ -29,9 +29,9 @@ export default function TableOrder(props) {
         <TableBody>
           {Array.isArray(props.items) && props.items.length > 0 ? props.items.map((item) => {
             return (
-              <TableOrderItem item={item}/>
+              <TableOrderItem key={item.order_details_id} item={item}/>
             )
-          }) : <TableRow><TableCell/><TableCell/><TableCell>Table Empty</TableCell><TableCell/><TableCell/></TableRow>}
+          }) : <TableRow><TableCell/><TableCell/><TableCell>No Items</TableCell><TableCell/><TableCell/></TableRow>}
         </TableBody>
       </Table>
     </Paper>

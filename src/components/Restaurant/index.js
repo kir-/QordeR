@@ -8,9 +8,11 @@ import MenuEdit from 'components/Restaurant/MenuEdit/index';
 import TableOrder from 'components/Restaurant/TableOrder';
 import Tables from 'components/Restaurant/Tables';
 
-let ws = new WebSocket('wss://q-order-api.herokuapp.com');
+let ws = new WebSocket('wss://localhost:8080');
 
 const axios = require('axios');
+
+axios.defaults.baseURL = 'http://localhost:8080';
 
 const TABLES = "TABLES";
 const EDIT = "EDIT";
@@ -37,7 +39,9 @@ export default function Restaurant(props) {
   const [state, setState] = useState({
     show: TABLES,
     tables: [],
-    orderItems: []
+    orderItems: [],
+    allOrderItems: [],
+    items: [],
   });
 
   const [cookies] = useCookies(['user']);
@@ -52,7 +56,7 @@ export default function Restaurant(props) {
   }, []);
 
   useEffect(() => {
-    axios.get(`/api/getTables/${props.restoId}`)
+    axios.get(`/api/orders/${props.restoId}`)
       .then((response) => {
         const sortedTables = response.data.sort((current, next) => {
           return current.id - next.id;
@@ -61,42 +65,50 @@ export default function Restaurant(props) {
           return ({
             ...currentState,
             tables: sortedTables
-          });
-        });
+          })
+        })
       })
-      .catch((error) => {
+      .catch(() => {
         setState((currentState) => {
           return ({
-            ...currentState
-          });
-        });
-      });
-  }, []);
+            ...currentState,
+            tables: []
+          })
+        })
+      })
+  }, [currentTable]);
 
   useEffect(() => {
-    setState((currentState) => {
-      return ({
-        ...currentState,
-        orderItems: []
-      });
-    });
-    axios.get(`/api/getActiveTableItems/${currentTable}`)
+    axios.get(`/api/getAllOrderItems/${props.restoId}`)
       .then((response) => {
         setState((currentState) => {
           return ({
             ...currentState,
-            orderItems: response.data
+            items: response.data
           });
         });
-      });
+      })
+      .catch(() => {
+        setState((currentState) => {
+          return ({
+            ...currentState,
+            items: []
+          })
+        })
+      })
   }, [currentTable]);
 
   const renderTablePage = function() {
+    const activeTable = state.tables.find(table => table.id === currentTable);
+    let activeItems = [];
+    if (activeTable) {
+      activeItems = state.items.filter(item => item.order_id === activeTable.order_id);
+    }
     return (
       <div className="d-flex flex-column justify-content-between">
         <Tables currentTable={currentTable} setCurrentTable={setCurrentTable} tables={state.tables} classes={classes}/>
         <br/>
-        {currentTable && <TableOrder currentTable={currentTable} items={state.orderItems} classes={classes}/>}
+        {currentTable && <TableOrder currentTable={currentTable} items={activeItems} classes={classes}/>}
         <br/>
       </div>
     )

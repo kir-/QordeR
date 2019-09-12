@@ -38,7 +38,7 @@ export default function Tables(props) {
                   {table.id}
                 </TableCell>
                 <TableCell>
-                  {table.completed === false ? <span className="badge badge-pill badge-warning">Busy</span> : <span className="badge badge-pill badge-success">Empty</span>}
+                  {table.order_id !== null ? <span className="badge badge-pill badge-warning">Busy</span> : <span className="badge badge-pill badge-success">Empty</span>}
                 </TableCell>
               </TableRow>
             )
