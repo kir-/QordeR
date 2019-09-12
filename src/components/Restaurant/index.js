@@ -9,6 +9,7 @@ import TableOrder from 'components/Restaurant/TableOrder';
 import Tables from 'components/Restaurant/Tables';
 
 const axios = require('axios');
+const io = require('socket.io-client');
 
 const TABLES = "TABLES";
 const EDIT = "EDIT";
@@ -28,6 +29,12 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default function Restaurant(props) {
+  const socket = io(`http://localhost:3002/${props.restoId}/order`);
+
+  socket.on('test', data => {
+    console.log(data);
+  });
+
   const [state, setState] = useState({
     show: TABLES,
     tables: [],
@@ -87,10 +94,11 @@ export default function Restaurant(props) {
 
   const renderTablePage = function() {
     return (
-      <div class="d-flex flex-column justify-content-between">
+      <div className="d-flex flex-column justify-content-between">
         <Tables currentTable={currentTable} setCurrentTable={setCurrentTable} tables={state.tables} classes={classes}/>
         <br/>
         {currentTable && <TableOrder currentTable={currentTable} items={state.orderItems} classes={classes}/>}
+        <br/>
       </div>
     )
   };

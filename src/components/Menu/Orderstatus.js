@@ -83,7 +83,7 @@ export default function SimpleTable(props) {
 
   }
 
-  function splitBill () {
+  function splitBill() {
     console.log(checkedItem)
     axios.post(`/${props.tableId}/pay`, {items: checkedItem})
       .then((response)=>{
@@ -99,14 +99,14 @@ export default function SimpleTable(props) {
   }
   if(order){
   if (checkout === 0) {
-  return (
+    return (
       <div>
           <TopBar title="Miku"/>
           <br/>
           <br/>
           <br/>
           <h2 align="center">Your Order</h2>
-    <Paper className={classes.root}> 
+    <Paper className={classes.root}>
       <Table className={classes.table}>
         <TableHead>
           <TableRow>
@@ -151,7 +151,7 @@ export default function SimpleTable(props) {
                 <br/>
                 <br/>
                 <h2 align="center">Your Order</h2>
-          <Paper className={classes.root}> 
+          <Paper className={classes.root}>
             <Table className={classes.table}>
               <TableHead style={{padding:"0px",width:"10%", paddingLeft:"10%", height:"10%"}}>
                 <TableRow style={{padding:"0px",width:"10%", paddingLeft:"10%", height:"10%"}}>
@@ -197,13 +197,13 @@ export default function SimpleTable(props) {
           <TopBar title="Miku"/>
           <br/>
           <br/>
-          <br/>  
+          <br/>
           <p align="center">Waiting for other customers to complete their form</p>
           <div align="center">
             <div className = "loader"></div>
           </div>
           <span>
-              <StripeCheckout 
+              <StripeCheckout
                 stripeKey="pk_test_TK9R3NMHts3AY8Bdd34iQ5AN002xytpmOT"
                 token={handleToken}
                 amount={6969}
@@ -216,7 +216,7 @@ export default function SimpleTable(props) {
           </span>
         </div>
       )
-    }  
+    }
     else if (checkout === 3){
       return (
       <div>

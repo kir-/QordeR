@@ -5,8 +5,12 @@ const axios = require('axios');
 import 'typeface-roboto';
 
 
+<<<<<<< Updated upstream
 export default function Application(props) {
   axios.get(`/${props.tableId}`).then(()=>{console.log("Success")});
+=======
+export default function Application() {
+>>>>>>> Stashed changes
   return (
     <div>
       <TopBar title="Miku" tableId={props.tableId}/>

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import TopBar from 'components/TopBar';
 const axios = require('axios');
 
-
 export default function Order(props) {
   const [order, setOrder] = useState();
   useEffect(() => {
