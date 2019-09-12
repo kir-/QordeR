@@ -9,7 +9,6 @@ import TableOrder from 'components/Restaurant/TableOrder';
 import Tables from 'components/Restaurant/Tables';
 
 const axios = require('axios');
-const io = require('socket.io-client');
 
 const TABLES = "TABLES";
 const EDIT = "EDIT";
@@ -29,17 +28,11 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default function Restaurant(props) {
-  const socket = io(`http://localhost:3002/${props.restoId}/order`);
-
-  socket.on('test', data => {
-    console.log(data);
-  });
-
   const [state, setState] = useState({
     show: TABLES,
     tables: [],
     orderItems: []
-  })
+  });
 
   const [cookies] = useCookies(['user']);
   const [currentTable, setCurrentTable] = useState(null);

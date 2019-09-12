@@ -7,7 +7,6 @@ export default function Order(props) {
   useEffect(() => {
     axios.get('/api/getMenu')
       .then(res => {
-        console.log(res)
         setOrder(res.data)
       })
   }, [])

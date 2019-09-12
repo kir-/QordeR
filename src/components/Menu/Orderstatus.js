@@ -200,7 +200,7 @@ export default function SimpleTable(props) {
           <br/>
           <p align="center">Waiting for other customers to complete their form</p>
           <div align="center">
-            <div className = "loader"></div>
+            <div className="loader"></div>
           </div>
           <span>
               <StripeCheckout
@@ -220,7 +220,7 @@ export default function SimpleTable(props) {
     else if (checkout === 3){
       return (
       <div>
-        <TopBar title= "Miku"/>
+        <TopBar title="Miku"/>
         <br/>
         <br/>
         <br/>
@@ -237,6 +237,7 @@ export default function SimpleTable(props) {
           <img
           src="https://cdn1.iconfinder.com/data/icons/learning-call-edit-location-s11/512/like-512.png"
           style={{width:"100px"}}
+          alt="thumbsUpIcon"
           />
         </div>
       </div>
