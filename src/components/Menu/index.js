@@ -8,7 +8,8 @@ import Cart from "components/Menu/Cart";
 const axios = require('axios');
 import { navigate } from 'hookrouter';
 
-// import { menu } from "fakeDb/menu"
+let ws = new WebSocket('wss://q-order-api.herokuapp.com');
+
 const useStyles = makeStyles(theme => ({
   root: {
     width: "100%",
@@ -28,13 +29,18 @@ export default function Menu(props) {
   const [cart, setCart] = React.useState(false);
   const [orderLength, setOrderLength] = React.useState(0);
   const classes = useStyles();
+
   function createData(name, quantity, price) {
     return { name, quantity, price };
   }
-  const sendOrder = function(order){
+  const sendOrder = function(order) {
     // let table_id = window.location.href.slice(22)
-    axios.post(`/${props.tableId}/order`, {order: order})
-      .then(()=>{
+    axios.post(`/${props.tableId}/order`, { order: order })
+      .then(() => {
+        // here some sort of message to server like added items
+        // server will send a message like 'new items'
+        // restaurant component will listen to 'new items' and update the state when it receives it
+        console.log('reached')
         navigate(`/order/${props.tableId}`);
       })
   }
@@ -42,12 +48,12 @@ export default function Menu(props) {
     const items = Object.keys(orderList);
     let quantity = [];
     let price = [];
-    
+
     for (let item in orderList) {
       quantity.push(orderList[item].quantity)
       price.push(orderList[item].price)
     }
-    console.log("quantity",quantity)
+    console.log("quantity", quantity)
     let tempRows = [];
     for (let i = 0; i < items.length; i++) {
       tempRows.push(createData(items[i], quantity[i], price[i]));
@@ -55,33 +61,24 @@ export default function Menu(props) {
     setRows([...tempRows])
     setCart(true)
   }
-  useEffect(()=>{
-    axios.get('/api/1/menu').then((response)=>{
+  useEffect(() => {
+    axios.get('/api/1/menu').then((response) => {
       setMenu(response.data)
     })
-  },[])
-  // renders out a list of menu categories and items
-  // data structure is located in fakeDb/menu.js
-  // expects menu to be something like:
-  //   menu = {
-  //   category: "string",
-  //   items: array of [
-  //     name: "string",
-  //     price_cents: int,
-  //     image: 'url string'
-  //   ]
-  // }
-  // can update the items to just old an array of ids later
-  if(menu){
-  const menuList = menu.map((entry, index) => {
-    return (
-      <Fragment>
+  }, [])
+
+  if (menu) {
+    const menuList = menu.map((entry, index) => {
+      return (
+        <Fragment>
         <ListItem key={index} button onClick={() =>
           state === entry.category ? setState(null) : setState(entry.category)
         }>
           <ListItemIcon>
-            <img src={entry.image}
-            style={{width:"33px", borderRadius:"30px"}}
+            <img
+              src={entry.image}
+              style={{width:"33px", borderRadius:"30px"}}
+              alt={entry.category}
             />
           </ListItemIcon>
           <ListItemText primary={entry.category} />
@@ -102,12 +99,12 @@ export default function Menu(props) {
           })}
         </Collapse>
       </Fragment>
-    )
-  })
-  if (!cart) {
-    // if Cart state is false it will render menu list
-    return (
-      <div>
+      )
+    })
+    if (!cart) {
+      // if Cart state is false it will render menu list
+      return (
+        <div>
         <div>
           <img
           style={{width: "100%", height: "100%", zindex:-1, position:"relative"}}
@@ -137,18 +134,18 @@ export default function Menu(props) {
         }}fullWidth aria-label="full width outlined button group">
          <Button style={{color:"white"}} onClick={() => makeRows()}>Checkout {orderLength}</Button>
         </ButtonGroup>
-          
+
           </List>
         </div>
         <br/>
       </div>
-    );
-  } else {
-    // if cart state is true, it will render cart page
-    return (
+      );
+    } else {
+      // if cart state is true, it will render cart page
+      return (
         <Cart setRows={setRows} setOrderLength={setOrderLength} orderLength={orderLength} setCart={()=> setCart()} order={orderList} rows={rows} sendOrder={(order)=>sendOrder(order)}/>
-    );
-  }
+      );
+    }
   } else {
     return (<p></p>)
   }

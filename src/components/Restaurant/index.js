@@ -8,6 +8,8 @@ import MenuEdit from 'components/Restaurant/MenuEdit/index';
 import TableOrder from 'components/Restaurant/TableOrder';
 import Tables from 'components/Restaurant/Tables';
 
+let ws = new WebSocket('wss://q-order-api.herokuapp.com');
+
 const axios = require('axios');
 
 const TABLES = "TABLES";
@@ -28,6 +30,10 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default function Restaurant(props) {
+  ws.onmessage = function(event) {
+    console.log('reached onmessage');
+    console.log(event.data);
+  }
   const [state, setState] = useState({
     show: TABLES,
     tables: [],
