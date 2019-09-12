@@ -28,8 +28,8 @@ export default function Menu(props) {
   const [cart, setCart] = React.useState(false);
   const [orderLength, setOrderLength] = React.useState(0);
   const classes = useStyles();
-  function createData(name, quantity, price) {
-    return { name, quantity, price };
+  function createData(name, quantity, price, id) {
+    return { name, quantity, price, id };
   }
   const sendOrder = function(order){
     // let table_id = window.location.href.slice(22)
@@ -43,15 +43,17 @@ export default function Menu(props) {
     const items = Object.keys(orderList);
     let quantity = [];
     let price = [];
+    let id = [];
     
     for (let item in orderList) {
       quantity.push(orderList[item].quantity)
       price.push(orderList[item].price)
+      id.push(orderList[item].id)
     }
     console.log("quantity",quantity)
     let tempRows = [];
     for (let i = 0; i < items.length; i++) {
-      tempRows.push(createData(items[i], quantity[i], price[i]));
+      tempRows.push(createData(items[i], quantity[i], price[i], id[i]));
     }
     setRows([...tempRows])
     setCart(true)
@@ -94,6 +96,7 @@ export default function Menu(props) {
               <Item
                 setOrderLength={setOrderLength}
                 order={orderList}
+                itemId={item.id}
                 name={item.name}
                 price={item.price_cents}
                 image={item.image}
