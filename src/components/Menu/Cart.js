@@ -120,14 +120,14 @@ export default function Cart(props) {
                             value="-"
                             id="btnDecrement"
                             onClick={() => decrementer(row.name, props.order, row)}
-                            style={{paddingTop:"10px", paddingLeft:"10px"}}
+                            style={{paddingTop:"10px", paddingLeft:"10px", backgroundColor:"white", borderStyle:"none"}}
                           />
                           <input
                             type="text"
                             readOnly="readOnly"
                             id={row.name}
                             value={row.quantity}
-                            style={{width:"20px", paddingTop:"12px", paddingLeft:"0px"}}
+                            style={{width:"20px", paddingTop:"12px", paddingLeft:"0px", backgroundColor:"white", borderStyle:"none"}}
                           />
                           <input
                             type="button"
