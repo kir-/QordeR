@@ -15,8 +15,6 @@ export default function Tables(props) {
     setPage(newPage);
   }
 
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, props.tables.length - page * rowsPerPage);
-
   return (
     <Paper className={props.classes.list}>
       <Table size='small'>
@@ -40,7 +38,7 @@ export default function Tables(props) {
                   {table.id}
                 </TableCell>
                 <TableCell>
-                  {table.completed === false ? <span class="badge badge-pill badge-warning">Busy</span> : <span class="badge badge-pill badge-success">Empty</span>}
+                  {table.order_id !== null ? <span className="badge badge-pill badge-warning">Busy</span> : <span className="badge badge-pill badge-success">Empty</span>}
                 </TableCell>
               </TableRow>
             )

@@ -28,12 +28,13 @@ const useStyles = makeStyles(theme => ({
 
 let checkedItem = []
 let email;
-function checkItem (name, id) {
+
+function checkItem(name, id) {
   const checkBox = document.getElementById(name);
-  if (checkBox.checked === true){
+  if (checkBox.checked === true) {
     checkedItem.push(id)
   }
-  if (!checkBox.checked){
+  if (!checkBox.checked) {
     checkedItem = checkedItem.filter(item => item !== id)
   }
 }
@@ -43,7 +44,7 @@ export default function SimpleTable(props) {
   const [order, setOrder] = useState('');
   const [load, setLoad] = useState('true')
 
-  ws.onmessage = function (event) {
+  ws.onmessage = function(event) {
     console.log('Message from server ', JSON.parse(event.data));
     if (JSON.parse(event.data) && JSON.parse(event.data).table_id){
       let paid = JSON.parse(event.data);
@@ -57,42 +58,40 @@ export default function SimpleTable(props) {
     }
   };
 
-  const goBack = function(){
+  const goBack = function() {
     axios.post(`/${props.tableId}/ordermore`)
-      .then((response)=>{
+      .then((response) => {
         navigate(`/${props.tableId}`)
       })
   }
 
-  useEffect(()=>{
-    console.log('useEffect')
+  useEffect(() => {
     axios.get(`/${props.tableId}/order`)
-      .then((response)=>{
-        console.log(response.data)
+      .then((response) => {
         setOrder(response.data)
       })
-  },[])
+  }, [])
 
-  const calculate = function(){
-    axios.post('/calculate_payment', {items: checkedItem})
-      .then((response)=>{
+  const calculate = function() {
+    axios.post('/calculate_payment', { items: checkedItem })
+      .then((response) => {
         console.log(response.data)
       })
-    }
+  }
 
-  function handleToken (token, addresses){
+  function handleToken(token, addresses) {
     email = (token.email)
     setCheckout(3)
 
   }
 
-  function splitBill () {
+  function splitBill() {
     console.log(checkedItem)
-    axios.post(`/${props.tableId}/pay`, {items: checkedItem})
-      .then((response)=>{
-        if (response.data === 'not paid'){
+    axios.post(`/${props.tableId}/pay`, { items: checkedItem })
+      .then((response) => {
+        if (response.data === 'not paid') {
           setCheckout(2)
-        } else if(response.data === 'please try again'){
+        } else if (response.data === 'please try again') {
           setCheckout(1)
         } else if (response.data === 'success') {
           setCheckout(3)
@@ -100,16 +99,16 @@ export default function SimpleTable(props) {
         console.log(response.data)
       })
   }
-  if(order){
-  if (checkout === 0) {
-  return (
-      <div>
+  if (order) {
+    if (checkout === 0) {
+      return (
+        <div>
           <TopBar title="Miku"/>
           <br/>
           <br/>
           <br/>
           <h2 align="center">Your Order</h2>
-    <Paper className={classes.root}> 
+    <Paper className={classes.root}>
       <Table className={classes.table}>
         <TableHead>
           <TableRow>
@@ -144,17 +143,16 @@ export default function SimpleTable(props) {
       bottom:"0",
     }} onClick= {()=> setCheckout(1)}>Checkout</Button>
     </div>
-  );
-    }
-    else if (checkout === 1) {
-        return (
-            <div>
+      );
+    } else if (checkout === 1) {
+      return (
+        <div>
                 <TopBar title="Miku"/>
                 <br/>
                 <br/>
                 <br/>
                 <h2 align="center">Your Order</h2>
-          <Paper className={classes.root}> 
+          <Paper className={classes.root}>
             <Table className={classes.table}>
               <TableHead style={{padding:"0px",width:"10%", paddingLeft:"10%", height:"10%"}}>
                 <TableRow style={{padding:"0px",width:"10%", paddingLeft:"10%", height:"10%"}}>
@@ -192,21 +190,20 @@ export default function SimpleTable(props) {
           bottom:"0"
           }} onClick={() => splitBill()}>Pay for Selected</Button>
           </div>
-        );
-    }
-    else if (checkout === 2) {
+      );
+    } else if (checkout === 2) {
       return (
         <div>
           <TopBar title="Miku"/>
           <br/>
           <br/>
-          <br/>  
+          <br/>
           <p align="center">Waiting for other customers to complete their form</p>
           <div align="center">
             {load && (<div className = "loader"></div>)}
           </div>
           <span>
-              <StripeCheckout 
+              <StripeCheckout
                 stripeKey="pk_test_TK9R3NMHts3AY8Bdd34iQ5AN002xytpmOT"
                 token={handleToken}
                 amount={6969}
@@ -219,11 +216,10 @@ export default function SimpleTable(props) {
           </span>
         </div>
       )
-    }  
-    else if (checkout === 3){
+    } else if (checkout === 3) {
       return (
-      <div>
-        <TopBar title= "Miku"/>
+        <div>
+        <TopBar title="Miku"/>
         <br/>
         <br/>
         <br/>
@@ -240,13 +236,14 @@ export default function SimpleTable(props) {
           <img
           src="https://cdn1.iconfinder.com/data/icons/learning-call-edit-location-s11/512/like-512.png"
           style={{width:"100px"}}
+          alt="thumbsUpIcon"
           />
         </div>
       </div>
       )
+
     } 
 }
 else {
   return (<p></p>)
-}
 }
