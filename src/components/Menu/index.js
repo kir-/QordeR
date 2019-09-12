@@ -42,6 +42,7 @@ export default function Menu(props) {
         // restaurant component will listen to 'new items' and update the state when it receives it
         console.log('reached')
         navigate(`/order/${props.tableId}`);
+        console.log('reached')
       })
   }
   const makeRows = function() {

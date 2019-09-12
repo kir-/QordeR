@@ -42,15 +42,18 @@ export default function SimpleTable(props) {
   const classes = useStyles();
   const [checkout, setCheckout] = useState(0);
   const [order, setOrder] = useState('');
+  const [load, setLoad] = useState('true')
 
   ws.onmessage = function(event) {
     console.log('Message from server ', JSON.parse(event.data));
-    let paid = JSON.parse(event.data);
-    if (paid.table_id === props.tableId) {
-      if (paid.success) {
-        setCheckout(3)
-      } else {
-        setCheckout(1)
+    if (JSON.parse(event.data) && JSON.parse(event.data).table_id){
+      let paid = JSON.parse(event.data);
+      if(paid.table_id === props.tableId){
+        if (paid.success){
+          setCheckout(3)
+        } else {
+          setCheckout(1)
+        }
       }
     }
   };
@@ -197,7 +200,7 @@ export default function SimpleTable(props) {
           <br/>
           <p align="center">Waiting for other customers to complete their form</p>
           <div align="center">
-            <div className="loader"></div>
+            {load && (<div className = "loader"></div>)}
           </div>
           <span>
               <StripeCheckout
@@ -238,8 +241,9 @@ export default function SimpleTable(props) {
         </div>
       </div>
       )
-    }
-  } else {
-    return (<p></p>)
-  }
+
+    } 
+}
+else {
+  return (<p></p>)
 }
