@@ -37,6 +37,10 @@ export default function TopBar(props) {
       })
   }
 
+  function toOrder() {
+    navigate(`/order/${props.tableId}`);
+  }
+
   return (
     <div className={classes.root}>
       <AppBar position={classes.static}>
@@ -51,6 +55,7 @@ export default function TopBar(props) {
             {props.title}
           </Typography>
           {props.admin && <Button onClick={logout} color="inherit">Logout</Button>}
+          {props.tableId && <Button onClick={toOrder} color="inherit">Current Order</Button>}
         </Toolbar>
       </AppBar>
     </div>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -8,6 +8,11 @@ import Paper from "@material-ui/core/Paper";
 import TableHead from "@material-ui/core/TableHead";
 import Button from "@material-ui/core/Button";
 
+
+const calculatePrice = function(price, quantity){
+  console.log(price, quantity)
+  return (price * quantity).toFixed(2)
+}
 
 const StyledTableCell = withStyles(theme => ({
   head: {
@@ -32,19 +37,24 @@ const useStyles2 = makeStyles(theme => ({
 }));
 function incrementer(name, order, row) {
   let i = document.getElementById(name);
+  let price = document.getElementById(`${name}price`);
   i.value++;
-  order[name] = i.value;
+  order[name].quantity = i.value;
   row["quantity"] = i.value;
+  price.innerText = calculatePrice(Number(price.innerText)/(Number(i.value)-1), i.value)
 }
 function decrementer(name, order, row) {
   let i = document.getElementById(name);
+  let price = document.getElementById(`${name}price`);
   if (i.value > 1) {
     i.value--;
-    order[name] = i.value;
+    order[name].quantity = i.value;
     row["quantity"] = i.value;
+    price.innerText = calculatePrice(Number(price.innerText)/(Number(i.value)+1), i.value)
   }
 }
 export default function Cart(props) {
+
   const deleteItem = function(index) {
     delete props.order[props.rows[index].name]
     let result = props.rows.filter(row => row.name !== props.rows[index].name)
@@ -124,7 +134,7 @@ export default function Cart(props) {
                           />
                         </p>
                       </TableCell>
-                      <TableCell style={{padding:"0px",width:"25%", height:"10%"}}>{row.price}</TableCell>
+                      <TableCell id={`${row.name}price`}style={{padding:"0px",width:"25%", height:"10%"}}>{calculatePrice(row.price, row.quantity)}</TableCell>
                     </TableRow>
                   ))}
                 {/* {emptyRows > 0 && (
@@ -144,7 +154,7 @@ export default function Cart(props) {
           backgroundColor:"#3f51b5",
           position:"fixed",
           bottom:"0"
-          }} onClick={() => console.log(props.rows)}>Place Order</Button>
+          }} onClick={() => props.sendOrder(props.rows)}>Place Order</Button>
     </div>
   );
 }
