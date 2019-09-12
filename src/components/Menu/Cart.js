@@ -61,6 +61,10 @@ export default function Cart(props) {
     props.setRows(result);
     props.setOrderLength(props.orderLength - 1)
   }
+  const placeOrder = function(){
+    props.sendOrder(props.rows)
+    clear()
+  }
   const clear = function() {
     props.setRows([])
     for (let item in props.order) delete props.order[item];
@@ -152,7 +156,7 @@ export default function Cart(props) {
           backgroundColor:"#3f51b5",
           position:"fixed",
           bottom:"0"
-          }} onClick={() => props.sendOrder(props.rows)}>Place Order</Button>
+          }} onClick={() => placeOrder()}>Place Order</Button>
     </div>
   );
 }
