@@ -33,7 +33,6 @@ export default function Item(props) {
       setDrawer(false)
       setCount(0)
       props.setOrderLength(currentLength => currentLength + 1)
-      }
     } else {
       const clearError = () => setError("");
       setError("Quantity cannot be 0!")
