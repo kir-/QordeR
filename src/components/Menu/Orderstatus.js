@@ -136,6 +136,9 @@ const clear = function(){
     axios.post(`/${props.tableId}/pay/confirm`, {price: parseInt(total*100)})
       .then(()=>{
         axios.get(`/${props.tableId}/pay/done`)
+          .then(()=>{
+          console.log("finished order")
+        })
       })
   }
 
